@@ -1,0 +1,79 @@
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-2xl font-bold mb-6">Teslimat Adresi</h1>
+  
+  <% if @addresses.any? %>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+      <h2 class="font-semibold mb-4">Kayitli Adresler</h2>
+      
+      <div class="space-y-3">
+        <% @addresses.each do |address| %>
+          <%= form_with url: save_address_checkout_index_path, method: :post do %>
+            <%= hidden_field_tag :address_id, address.id %>
+            <div class="border rounded-lg p-4 <%= 'border-blue-500 bg-blue-50' if address.default? %>">
+              <div class="flex justify-between items-start">
+                <div>
+                  <p class="font-medium"><%= address.name %></p>
+                  <p class="text-gray-600"><%= address.address_line1 %></p>
+                  <p class="text-gray-600"><%= address.district %>, <%= address.city %> <%= address.zip_code %></p>
+                  <p class="text-gray-500"><%= address.phone %></p>
+                </div>
+                <%= submit_tag "Sec", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h2 class="font-semibold mb-4">Yeni Adres Ekle</h2>
+    
+    <%= form_with url: save_address_checkout_index_path, method: :post do |f| %>
+      <div class="space-y-4">
+        <div>
+          <%= f.label :name, "Adres Adı", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.text_field :name, placeholder: "Ev, Isyeri vb.", class: "w-full border border-gray-300 rounded px-3 py-2" %>
+        </div>
+        
+        <div>
+          <%= f.label :phone, "Telefon", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.telephone_field :phone, placeholder: "5xxxxxxxxx", class: "w-full border border-gray-300 rounded px-3 py-2" %>
+        </div>
+        
+        <div>
+          <%= f.label :address_line1, "Adres", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.text_field :address_line1, placeholder: "Sokak, cadde, mahalle", class: "w-full border border-gray-300 rounded px-3 py-2" %>
+        </div>
+        
+        <div>
+          <%= f.label :address_line2, "Adres Detayi (istege bagli)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.text_field :address_line2, placeholder: "Apartman, kat, daire", class: "w-full border border-gray-300 rounded px-3 py-2" %>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <%= f.label :city, "Sehir", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.text_field :city, class: "w-full border border-gray-300 rounded px-3 py-2" %>
+          </div>
+          <div>
+            <%= f.label :district, "Ilce", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.text_field :district, class: "w-full border border-gray-300 rounded px-3 py-2" %>
+          </div>
+        </div>
+        
+        <div>
+          <%= f.label :zip_code, "Posta Kodu", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= f.text_field :zip_code, class: "w-full border border-gray-300 rounded px-3 py-2" %>
+        </div>
+        
+        <div class="flex items-center">
+          <%= f.check_box :default, class: "mr-2" %>
+          <%= f.label :default, "Varsayilan adres yap" %>
+        </div>
+        
+        <%= f.submit "Adresi Kaydet ve Devam Et", class: "bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 font-medium" %>
+      </div>
+    <% end %>
+  </div>
+</div>

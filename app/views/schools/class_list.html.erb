@@ -1,0 +1,63 @@
+<div class="container mx-auto px-4 py-8">
+  <nav class="mb-4">
+    <%= link_to "← Siniflar", classes_school_path(@school), class: "text-blue-600 hover:underline" %>
+  </nav>
+     
+  <h1 class="text-3xl font-bold text-gray-900 mb-2"><%= @school.name %> - Ihtiyac Listesi</h1>
+     
+  <% if @class_list %>
+    <div class="bg-white rounded-lg shadow p-8">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4"><%= @class_list.name %></h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
+        <div>
+          <p class="text-gray-500">Akademik Yil</p>
+          <p class="font-semibold"><%= @class_list.academic_year %></p>
+        </div>
+        <div>
+          <p class="text-gray-500">Donem</p>
+          <p class="font-semibold"><%= @class_list.semester %></p>
+        </div>
+        <div>
+          <p class="text-gray-500">Versiyon</p>
+          <p class="font-semibold"><%= @class_list.version %></p>
+        </div>
+      </div>
+      
+      <h3 class="text-xl font-semibold mb-4">Urunler (<%= @class_list.school_class_list_items.count %> kalem)</h3>
+      
+      <div class="space-y-4">
+        <% @class_list.school_class_list_items.each do |item| %>
+          <div class="border-b pb-4">
+            <div class="flex justify-between items-center">
+              <div>
+                <p class="font-semibold text-gray-800"><%= item.product.name %></p>
+                <p class="text-sm text-gray-500"><%= number_to_currency(item.product.price) %> | Puan: <%= item.product.point_value %></p>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-lg"><%= number_to_currency(item.product.price * item.quantity) %></p>
+                <p class="text-sm text-gray-500"><%= item.quantity %> adet</p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      
+      <div class="mt-6 pt-6 border-t">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="text-gray-600">Toplam Urun: <strong><%= @class_list.total_items %></strong></p>
+            <p class="text-gray-600">Toplam Tutar: <strong><%= number_to_currency(@class_list.total_amount) %></strong></p>
+          </div>
+          <%= form_with url: add_class_list_to_cart_school_path(@school, class_list_id: @class_list.id), method: :post do %>
+            <%= submit_tag "Tek Tikla Sepete Ekle", class: "bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 font-semibold cursor-pointer" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="bg-blue-50 p-6 rounded-lg">
+      <p class="text-gray-600">Lutfen bir sinif seçin ve ilgili donem listesini görüntüleyin.</p>
+      <%= link_to "Sinif Seç", classes_school_path(@school), class: "text-blue-600 hover:underline" %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,117 @@
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-2xl font-bold mb-6">Alışveriş Sepeti</h1>
+  
+  <% if @cart_items.any? %>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">Ürün</th>
+            <th class="px-4 py-3 text-center text-sm font-medium text-gray-600">Adet</th>
+            <th class="px-4 py-3 text-right text-sm font-medium text-gray-600">Fiyat</th>
+            <th class="px-4 py-3 text-right text-sm font-medium text-gray-600">Toplam</th>
+            <th class="px-4 py-3"></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <% @cart_items.each do |item| %>
+            <tr>
+              <td class="px-4 py-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-16 h-16 bg-gray-100 rounded flex items-center justify-center">
+                    <span class="text-gray-400 text-xs">Resim yok</span>
+                  </div>
+                  <div>
+                    <%= link_to item.product.name, product_path(item.product), class: "font-medium text-gray-900 hover:text-blue-600" %>
+                    <% if item.from_list %>
+                      <span class="ml-2 text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded">Liste</span>
+                    <% end %>
+                  </div>
+                </div>
+              </td>
+              <td class="px-4 py-4">
+                <div class="flex items-center justify-center gap-2">
+                  <%= button_to "-", update_item_cart_path(item, quantity: item.quantity - 1), method: :patch, class: "w-8 h-8 bg-gray-100 rounded hover:bg-gray-200" %>
+                  <span class="w-12 text-center"><%= item.quantity %></span>
+                  <%= button_to "+", update_item_cart_path(item, quantity: item.quantity + 1), method: :patch, class: "w-8 h-8 bg-gray-100 rounded hover:bg-gray-200" %>
+                </div>
+              </td>
+              <td class="px-4 py-4 text-right"><%= number_to_currency(item.price) %></td>
+              <td class="px-4 py-4 text-right font-medium"><%= number_to_currency(item.total_price) %></td>
+              <td class="px-4 py-4 text-right">
+                <%= button_to "×", remove_item_cart_path(item), method: :delete, class: "w-8 h-8 text-red-500 hover:bg-red-50 rounded", title: "Sepetten kaldır" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="mt-6 flex flex-col lg:flex-row gap-6">
+      <div class="flex-1">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+          <h3 class="font-medium mb-3">Kupon Kodu</h3>
+          <%= form_with url: apply_coupon_cart_path(@cart), method: :post do |f| %>
+            <div class="flex gap-2">
+              <%= f.text_field :coupon_code, placeholder: "Kupon kodunu girin", class: "flex-1 border border-gray-300 rounded px-3 py-2" %>
+              <%= f.submit "Uygula", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+            </div>
+          <% end %>
+          <% if @cart.coupon_code %>
+            <p class="mt-2 text-green-600 text-sm">Uygulanan: <%= @cart.coupon_code.code %></p>
+          <% end %>
+        </div>
+        
+        <% if Current.user && @cart.school %>
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mt-4">
+          <h3 class="font-medium mb-3">Okul Puanları</h3>
+          <% school_point = Current.user.school_point_for(@cart.school) %>
+          <% if school_point && school_point.balance > 0 %>
+            <p class="text-sm text-gray-600 mb-2">Kullanılabilir puan: <%= school_point.balance %></p>
+            <%= form_with url: apply_points_cart_path(@cart), method: :post do |f| %>
+              <div class="flex gap-2">
+                <%= f.number_field :points, min: 0, max: school_point.balance, placeholder: "Puan miktarı", class: "flex-1 border border-gray-300 rounded px-3 py-2" %>
+                <%= f.submit "Kullan", class: "bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" %>
+              </div>
+            <% end %>
+          <% else %>
+            <p class="text-sm text-gray-500">Bu okul için puanınız yok</p>
+          <% end %>
+        </div>
+        <% end %>
+      </div>
+      
+      <div class="w-full lg:w-72">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+          <div class="flex justify-between mb-2">
+            <span class="text-gray-600">Ara Toplam</span>
+            <span><%= number_to_currency(@cart.total_amount) %></span>
+          </div>
+          <% if @cart.applied_points.to_i > 0 %>
+            <div class="flex justify-between mb-2 text-green-600">
+              <span>Puan İndirimi</span>
+              <span>-<%= number_to_currency(@cart.applied_points) %></span>
+            </div>
+          <% end %>
+          <% if @cart.coupon_code %>
+            <div class="flex justify-between mb-2 text-green-600">
+              <span>Kupon</span>
+              <span>-<%= number_to_currency(@cart.coupon_code.calculate_discount(@cart.total_amount)) %></span>
+            </div>
+          <% end %>
+          <div class="border-t pt-2 mt-2 flex justify-between font-bold text-lg">
+            <span>Toplam</span>
+            <span><%= number_to_currency(@cart.final_amount) %></span>
+          </div>
+          
+          <%= link_to "Ödemeye Geç", checkout_index_path, class: "block w-full bg-blue-600 text-white text-center py-3 rounded mt-4 hover:bg-blue-700 font-medium" %>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="text-center py-12">
+      <p class="text-gray-500 mb-4">Sepetiniz boş</p>
+      <%= link_to "Alışverişe Başla", products_path, class: "text-blue-600 hover:underline" %>
+    </div>
+  <% end %>
+</div>

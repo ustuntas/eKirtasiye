@@ -1,0 +1,42 @@
+<div class="max-w-2xl mx-auto text-center">
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+      <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+      </svg>
+    </div>
+    
+    <h1 class="text-2xl font-bold text-gray-900 mb-2">Siparisiniz Alindi!</h1>
+    <p class="text-gray-600 mb-6">Siparisiniz basariyla olusturuldu.</p>
+    
+    <% if @order %>
+      <div class="bg-gray-50 rounded-lg p-4 mb-6 text-left">
+        <div class="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <p class="text-gray-500">Siparis No</p>
+            <p class="font-medium">#<%= @order.id %></p>
+          </div>
+          <div>
+            <p class="text-gray-500">Tarih</p>
+            <p class="font-medium"><%= l(@order.created_at, format: :long) %></p>
+          </div>
+          <div>
+            <p class="text-gray-500">Tutar</p>
+            <p class="font-medium"><%= number_to_currency(@order.total_amount) %></p>
+          </div>
+          <div>
+            <p class="text-gray-500">Durum</p>
+            <p class="font-medium text-yellow-600"><%= @order.status_i18n %></p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="space-y-3">
+        <%= link_to "Siparislerim", account_orders_path, class: "block w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 font-medium" %>
+        <%= link_to "Alisverise Devam", products_path, class: "block w-full border border-gray-300 py-3 rounded hover:bg-gray-50" %>
+      </div>
+    <% else %>
+      <%= link_to "Siparislerim", orders_path, class: "text-blue-600 hover:underline" %>
+    <% end %>
+  </div>
+</div>

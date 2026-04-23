@@ -1,0 +1,19 @@
+<div class="container mx-auto px-4 py-8">
+  <nav class="mb-4">
+    <%= link_to "← #{@school.name}", school_path(@school), class: "text-blue-600 hover:underline" %>
+  </nav>
+  
+  <h1 class="text-3xl font-bold text-gray-900 mb-2"><%= @school.name %> - Siniflar</h1>
+  <p class="text-gray-600 mb-8">Sinif seçerek ihtiyac listenizi görüntüleyin</p>
+  
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <% @classes.each do |classroom| %>
+      <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= classroom.name %></h3>
+        <p class="text-gray-600 mb-2">Sinif: <%= classroom.grade %>/<%= classroom.section %></p>
+        <%= link_to "Ihtiyac Listesi", class_list_school_path(@school, class_list_id: classroom.id), 
+              class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 inline-block" %>
+      </div>
+    <% end %>
+  </div>
+</div>

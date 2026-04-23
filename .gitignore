@@ -1,0 +1,70 @@
+# Ignore bundler config
+/.bundle
+
+# Ignore the default SQLite database
+/db/*.sqlite3
+/db/*.sqlite3-*
+
+# Ignore all logfiles and tempfiles
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore pidfiles, but keep the directory
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+# Ignore uploaded files in development/test
+/storage/*
+!/storage/.keep
+
+# Ignore generated assets
+/public/assets
+/public/packs
+/public/packs-test
+
+# Node / frontend dependencies
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
+# Ignore byebug history
+.byebug_history
+
+# Ignore local environment / secrets
+.env
+.env.*
+!.env.example
+
+# Ignore Rails master key
+/config/master.key
+
+# Ignore editor / OS junk
+.DS_Store
+Thumbs.db
+
+# Ignore test coverage and profiling output
+/coverage
+/spec/reports
+rerun.txt
+
+# Ignore Ruby version managers / local configs
+.ruby-version
+.ruby-gemset
+
+# Ignore bundler installed gems
+/vendor/bundle
+
+# Senin isteğine göre: vendor dizininin tamamını dışla
+/vendor/*
+
+# Ama isterse boş klasör yapısını koru
+!/vendor/.keep
+
+# Optional: if using importmaps or generated build artifacts
+/public/builds
+!/public/builds/.keep
+

@@ -1,0 +1,46 @@
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-2xl font-bold mb-6">Siparis Ozeti</h1>
+  
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+    <h2 class="font-semibold mb-4">Sepet Urunleri (<%= @cart.total_items %>)</h2>
+    
+    <div class="space-y-3">
+      <% @cart.cart_items.each do |item| %>
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="font-medium"><%= item.product.name %></p>
+            <p class="text-sm text-gray-500"><%= item.quantity %> x <%= number_to_currency(item.price) %></p>
+          </div>
+          <p class="font-medium"><%= number_to_currency(item.total_price) %></p>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="border-t mt-4 pt-4">
+      <div class="flex justify-between">
+        <span class="text-gray-600">Ara Toplam</span>
+        <span><%= number_to_currency(@cart.total_amount) %></span>
+      </div>
+      <% if @cart.applied_points.to_i > 0 %>
+        <div class="flex justify-between text-green-600">
+          <span>Puan</span>
+          <span>-<%= number_to_currency(@cart.applied_points) %></span>
+        </div>
+      <% end %>
+      <% if @cart.coupon_code %>
+        <div class="flex justify-between text-green-600">
+          <span>Kupon</span>
+          <span>-<%= number_to_currency(@cart.coupon_code.calculate_discount(@cart.total_amount)) %></span>
+        </div>
+      <% end %>
+      <div class="flex justify-between font-bold text-lg mt-2">
+        <span>Toplam</span>
+        <span><%= number_to_currency(@cart.final_amount) %></span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="text-right">
+    <%= link_to "Adrese Gec", address_checkout_index_path, class: "bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 font-medium" %>
+  </div>
+</div>

@@ -1,0 +1,2 @@
+module School::PointTransactionsHelper
+end

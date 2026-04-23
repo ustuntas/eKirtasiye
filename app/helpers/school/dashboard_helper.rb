@@ -1,0 +1,2 @@
+module School::DashboardHelper
+end

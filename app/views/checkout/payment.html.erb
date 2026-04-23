@@ -1,0 +1,89 @@
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-2xl font-bold mb-6">Odeme</h1>
+  
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div>
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <h2 class="font-semibold mb-4">Teslimat Adresi</h2>
+        <% if @address %>
+          <div class="text-gray-600">
+            <p class="font-medium"><%= @address.name %></p>
+            <p><%= @address.address_line1 %></p>
+            <p><%= @address.district %>, <%= @address.city %> <%= @address.zip_code %></p>
+            <p><%= @address.phone %></p>
+          </div>
+          <%= link_to "Degistir", address_checkout_index_path, class: "text-blue-600 text-sm hover:underline" %>
+        <% end %>
+      </div>
+      
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h2 class="font-semibold mb-4">Siparis Ozeti</h2>
+        <div class="space-y-2 text-sm">
+          <% if @cart %>
+            <% @cart.cart_items.each do |item| %>
+              <div class="flex justify-between">
+                <span><%= item.product.name %> x <%= item.quantity %></span>
+                <span><%= number_to_currency(item.total_price) %></span>
+              </div>
+            <% end %>
+            <div class="border-t pt-2 flex justify-between font-medium">
+              <span>Toplam</span>
+              <span><%= number_to_currency(@cart.final_amount) %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    
+    <div>
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h2 class="font-semibold mb-4">Odeme Yontemi</h2>
+        
+        <div class="space-y-4">
+          <div class="border rounded-lg p-4">
+            <div class="flex items-center">
+              <input type="radio" name="payment_method" id="credit_card" checked class="mr-3">
+              <label for="credit_card" class="font-medium">Kredi Karti / Banka Karti</label>
+            </div>
+            <p class="text-sm text-gray-500 ml-6">Visa, MasterCard, Troy</p>
+          </div>
+          
+          <div class="border rounded-lg p-4 opacity-50">
+            <div class="flex items-center">
+              <input type="radio" name="payment_method" disabled class="mr-3">
+              <label class="font-medium text-gray-400">Banka Havalesi</label>
+            </div>
+            <p class="text-sm text-gray-400 ml-6">Yakinda</p>
+          </div>
+        </div>
+        
+        <%= form_with url: process_payment_checkout_index_path, method: :post do |f| %>
+          <div class="mt-6 space-y-4">
+            <div>
+              <%= f.label :card_number, "Karti Üzerindeki Isim", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= f.text_field :card_holder, placeholder: "Ad Soyad", class: "w-full border border-gray-300 rounded px-3 py-2" %>
+            </div>
+            
+            <div>
+              <%= f.label :card_number, "Karti Numarasi", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= f.text_field :card_number, placeholder: "0000 0000 0000 0000", maxlength: 19, class: "w-full border border-gray-300 rounded px-3 py-2" %>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <%= f.label :expiry, "SKT", class: "block text-sm font-medium text-gray-700 mb-1" %>
+                <%= f.text_field :expiry, placeholder: "AA/YY", maxlength: 5, class: "w-full border border-gray-300 rounded px-3 py-2" %>
+              </div>
+              <div>
+                <%= f.label :cvv, "CVV", class: "block text-sm font-medium text-gray-700 mb-1" %>
+                <%= f.password_field :cvv, placeholder: "000", maxlength: 4, class: "w-full border border-gray-300 rounded px-3 py-2" %>
+              </div>
+            </div>
+            
+            <%= f.submit "Siparisi Tamamla", class: "w-full bg-green-600 text-white py-3 rounded hover:bg-green-700 font-medium text-lg" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
