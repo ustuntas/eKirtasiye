@@ -1,4 +1,128 @@
-<div>
-  <h1 class="font-bold text-4xl">Account::Dashboard#index</h1>
-  <p>Find me in app/views/account/dashboard/index.html.erb</p>
-</div>
+<section>
+  <div class="ek-hero">
+    <span class="ek-eyebrow">Hesap paneli</span>
+    <h1 class="ek-title">Hoş geldiniz, <%= Current.user.email_address %></h1>
+    <p class="ek-lead">Siparişlerinizi, adreslerinizi ve okul puanlarınızı tek yerden takip edin.</p>
+    <div class="ek-actions">
+      <%= link_to "Siparişlerim", account_orders_path, class: "ek-primary-button" %>
+      <%= link_to "Adreslerim", account_addresses_path, class: "ek-secondary-button" %>
+      <%= link_to "Alışverişe Devam", products_path, class: "ek-secondary-button" %>
+    </div>
+  </div>
+
+  <div class="ek-grid mt-8">
+    <article class="ek-card">
+      <span class="ek-card-kicker">Sipariş</span>
+      <h2 class="ek-card-title"><%= @total_orders %></h2>
+      <p class="ek-muted">Toplam siparişiniz</p>
+    </article>
+
+    <article class="ek-card">
+      <span class="ek-card-kicker">Harcama</span>
+      <h2 class="ek-card-title"><%= number_to_currency(@total_spent) %></h2>
+      <p class="ek-muted">Tamamlanan alışveriş toplamı</p>
+    </article>
+
+    <article class="ek-card">
+      <span class="ek-card-kicker">Okul puanı</span>
+      <h2 class="ek-card-title"><%= @total_points.to_i %></h2>
+      <p class="ek-muted">Kullanılabilir toplam puan</p>
+    </article>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+    <article class="ek-panel p-6 lg:col-span-2">
+      <div class="flex items-end justify-between gap-4 mb-5">
+        <div>
+          <span class="ek-eyebrow">Son hareketler</span>
+          <h2 class="ek-section-title text-3xl">Son siparişler</h2>
+        </div>
+        <%= link_to "Tümünü Gör", account_orders_path, class: "ek-card-link" %>
+      </div>
+
+      <% if @orders.any? %>
+        <div class="space-y-3">
+          <% @orders.each do |order| %>
+            <div class="ek-card flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <p class="font-extrabold">Sipariş #<%= order.id %></p>
+                <p class="ek-muted"><%= l(order.created_at, format: :short) %> · <%= order.total_items %> ürün</p>
+              </div>
+              <div class="text-left md:text-right">
+                <p class="ek-price text-2xl"><%= number_to_currency(order.total_amount) %></p>
+                <span class="ek-pill"><%= order.order_status %></span>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="ek-card">
+          <h3 class="ek-card-title">Henüz sipariş yok</h3>
+          <p class="ek-muted">Okul ihtiyaç listesinden veya ürün kataloğundan alışverişe başlayabilirsiniz.</p>
+          <div class="mt-5"><%= link_to "Ürünleri Keşfet", products_path, class: "ek-primary-button" %></div>
+        </div>
+      <% end %>
+    </article>
+
+    <aside class="grid gap-6">
+      <article class="ek-panel p-6">
+        <span class="ek-eyebrow">Adresler</span>
+        <h2 class="ek-section-title text-3xl">Kayıtlı adresler</h2>
+        <% if @addresses.any? %>
+          <div class="space-y-3 mt-5">
+            <% @addresses.each do |address| %>
+              <div class="ek-card">
+                <p class="font-extrabold"><%= address.title %></p>
+                <p class="ek-muted"><%= address.city %> / <%= address.district %></p>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="ek-muted mt-4">Henüz kayıtlı adres yok.</p>
+        <% end %>
+        <div class="mt-5"><%= link_to "Adresleri Yönet", account_addresses_path, class: "ek-card-link" %></div>
+      </article>
+
+      <article class="ek-panel p-6">
+        <span class="ek-eyebrow">Puanlar</span>
+        <h2 class="ek-section-title text-3xl">Okul puanları</h2>
+        <% if @school_points.any? %>
+          <div class="space-y-3 mt-5">
+            <% @school_points.each do |point| %>
+              <div class="ek-card flex items-center justify-between gap-3">
+                <span class="font-extrabold"><%= point.school.name %></span>
+                <span class="ek-pill"><%= point.balance.to_i %> puan</span>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="ek-muted mt-4">Henüz okul puanınız yok.</p>
+        <% end %>
+      </article>
+    </aside>
+  </div>
+
+  <section class="ek-panel p-6 mt-8">
+    <div class="flex items-end justify-between gap-4 mb-5">
+      <div>
+        <span class="ek-eyebrow">Yorumlar</span>
+        <h2 class="ek-section-title text-3xl">Son değerlendirmeler</h2>
+      </div>
+      <%= link_to "Yorumlarım", account_reviews_path, class: "ek-card-link" %>
+    </div>
+
+    <% if @reviews.any? %>
+      <div class="ek-grid">
+        <% @reviews.each do |review| %>
+          <article class="ek-card">
+            <span class="ek-card-kicker"><%= review.product.name %></span>
+            <p class="font-extrabold mt-2"><%= review.rating %>/5</p>
+            <p class="ek-muted"><%= truncate(review.comment, length: 120) %></p>
+          </article>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="ek-muted">Henüz ürün değerlendirmesi yapmadınız.</p>
+    <% end %>
+  </section>
+</section>

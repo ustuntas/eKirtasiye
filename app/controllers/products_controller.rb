@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  skip_before_action :require_authentication, only: [:index, :show]
+  skip_before_action :require_authentication, only: [:index, :show, :add_to_cart]
   
   def index
     @products = Product.active.includes(:category)
@@ -11,10 +11,29 @@ class ProductsController < ApplicationController
   end
   
   def add_to_cart
-    redirect_back(fallback_location: root_path)
+    product = Product.active.find(params[:id])
+    quantity = params[:quantity].presence.to_i
+    quantity = 1 if quantity < 1
+
+    current_cart.add_product(product, quantity)
+
+    redirect_to cart_path, notice: "#{product.name} sepete eklendi"
   end
   
   def add_to_favorites
     redirect_back(fallback_location: root_path)
+  end
+
+  private
+
+  def current_cart
+    if Current.user
+      Cart.find_or_create_by(user: Current.user)
+    else
+      cart = Cart.find_by(id: session[:cart_id]) if session[:cart_id]
+      cart ||= Cart.create(session_id: session.id)
+      session[:cart_id] = cart.id
+      cart
+    end
   end
 end
