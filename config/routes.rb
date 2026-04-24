@@ -89,7 +89,7 @@ Rails.application.routes.draw do
     end
     resources :categories
     
-    resources :orders, only: [:index, :show, :update] do
+    resources :orders, only: [:index, :show, :update, :destroy] do
       member do
         post :approve
         post :ship

@@ -15,8 +15,8 @@
   <div class="admin-panel-head">
     <h2>Okul Hesapları Listesi</h2>
     <div class="admin-dash-actions">
-      <%= link_to "Yeni Okul Hesabı", new_admin_school_account_path, class: "ek-primary-button" %>
-      <%= link_to "Dashboard", admin_root_path, class: "ek-card-link" %>
+      <%= link_to "➕ Yeni Okul Hesabı", new_admin_school_account_path, class: "ek-primary-button" %>
+      <%= link_to "🏠 Dashboard", admin_root_path, class: "ek-card-link" %>
     </div>
   </div>
 
@@ -30,7 +30,7 @@
           <th>Yetkili</th>
           <th>Telefon</th>
           <th>Durum</th>
-          <th></th>
+          <th>İşlemler</th>
         </tr>
       </thead>
       <tbody>
@@ -42,7 +42,13 @@
             <td><%= account.responsible_person %></td>
             <td><%= account.phone %></td>
             <td><span class="ek-pill"><%= account.status %></span></td>
-            <td><%= link_to "Detay", admin_school_account_path(account), class: "ek-pill" %></td>
+            <td>
+              <div class="admin-row-actions">
+                <%= link_to "👁️ Detay", admin_school_account_path(account), class: "ek-pill" %>
+                <%= link_to "✏️ Düzenle", edit_admin_school_account_path(account), class: "ek-pill" %>
+                <%= button_to "🗑️ Sil", admin_school_account_path(account), method: :delete, class: "ek-pill", form: { data: { turbo_confirm: "Bu okul hesabını silmek istiyor musunuz?" } } %>
+              </div>
+            </td>
           </tr>
         <% end %>
       </tbody>

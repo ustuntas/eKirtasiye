@@ -4,9 +4,9 @@
   <p class="ek-section-copy">SKU: <%= @product.sku %></p>
 
   <div class="admin-dash-actions mt-6">
-    <%= link_to "Düzenle", edit_admin_product_path(@product), class: "ek-primary-button" %>
-    <%= button_to "Sil", admin_product_path(@product), method: :delete, class: "ek-secondary-button", form: { data: { turbo_confirm: "Bu ürünü silmek istiyor musunuz?" } } %>
-    <%= link_to "Ürün Listesi", admin_products_path, class: "ek-card-link" %>
+    <%= link_to "✏️ Düzenle", edit_admin_product_path(@product), class: "ek-primary-button" %>
+    <%= button_to "🗑️ Sil", admin_product_path(@product), method: :delete, class: "ek-secondary-button", form: { data: { turbo_confirm: "Bu ürünü silmek istiyor musunuz?" } } %>
+    <%= link_to "📋 Ürün Listesi", admin_products_path, class: "ek-card-link" %>
   </div>
 </section>
 

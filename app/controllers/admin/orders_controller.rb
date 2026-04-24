@@ -1,5 +1,5 @@
 class Admin::OrdersController < ApplicationController
-  before_action :set_order, only: %i[show update approve ship deliver cancel]
+  before_action :set_order, only: %i[show update destroy approve ship deliver cancel]
 
   def index
     @orders = Order.includes(:user).order(created_at: :desc).limit(100)
@@ -16,6 +16,14 @@ class Admin::OrdersController < ApplicationController
       redirect_to admin_order_path(@order), notice: "Sipariş güncellendi."
     else
       render :show, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    if @order.destroy
+      redirect_to admin_orders_path, notice: "Sipariş silindi."
+    else
+      redirect_to admin_order_path(@order), alert: @order.errors.full_messages.to_sentence.presence || "Sipariş silinemedi."
     end
   end
 

@@ -1,6 +1,6 @@
 <section class="ek-panel p-6 md:p-8">
   <span class="ek-eyebrow">Kurumsal</span>
-  <h1 class="ek-section-title">Okul Yönetimi</h1>
+  <h1 class="ek-section-title">Okulları Yönet</h1>
   <p class="ek-section-copy">Okul başvurularını ve durumlarını merkezi olarak yönetin.</p>
 </section>
 
@@ -31,8 +31,8 @@
   <div class="admin-panel-head">
     <h2>Okul Listesi</h2>
     <div class="admin-dash-actions">
-      <%= link_to "Yeni Okul", new_admin_school_path, class: "ek-primary-button" %>
-      <%= link_to "Dashboard", admin_root_path, class: "ek-card-link" %>
+      <%= link_to "➕ Yeni Okul", new_admin_school_path, class: "ek-primary-button" %>
+      <%= link_to "🏠 Dashboard", admin_root_path, class: "ek-card-link" %>
     </div>
   </div>
 
@@ -45,7 +45,7 @@
           <th>Telefon</th>
           <th>Vergi No</th>
           <th>Durum</th>
-          <th></th>
+          <th>İşlemler</th>
         </tr>
       </thead>
       <tbody>
@@ -56,7 +56,13 @@
             <td><%= school.phone.presence || "-" %></td>
             <td><%= school.tax_number %></td>
             <td><span class="ek-pill"><%= school.status %></span></td>
-            <td><%= link_to "Detay", admin_school_path(school), class: "ek-pill" %></td>
+            <td>
+              <div class="admin-row-actions">
+                <%= link_to "👁️ Detay", admin_school_path(school), class: "ek-pill" %>
+                <%= link_to "✏️ Düzenle", edit_admin_school_path(school), class: "ek-pill" %>
+                <%= button_to "🗑️ Sil", admin_school_path(school), method: :delete, class: "ek-pill", form: { data: { turbo_confirm: "Bu okulu silmek istiyor musunuz?" } } %>
+              </div>
+            </td>
           </tr>
         <% end %>
       </tbody>

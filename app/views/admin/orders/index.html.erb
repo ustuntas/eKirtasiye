@@ -1,6 +1,6 @@
 <section class="ek-panel p-6 md:p-8">
   <span class="ek-eyebrow">Operasyon</span>
-  <h1 class="ek-section-title">Sipariş Yönetimi</h1>
+  <h1 class="ek-section-title">Siparişleri Yönet</h1>
   <p class="ek-section-copy">Sipariş akışını yönetin, durumları takip edin ve hızlıca detaylara gidin.</p>
 </section>
 
@@ -30,7 +30,7 @@
 <section class="ek-panel p-6 mt-8">
   <div class="admin-panel-head">
     <h2>Sipariş Listesi</h2>
-    <%= link_to "Dashboard", admin_root_path, class: "ek-card-link" %>
+    <%= link_to "🏠 Dashboard", admin_root_path, class: "ek-card-link" %>
   </div>
 
   <div class="admin-table-wrap mt-4">
@@ -43,7 +43,7 @@
           <th>Ödeme</th>
           <th>Tutar</th>
           <th>Tarih</th>
-          <th></th>
+          <th>İşlemler</th>
         </tr>
       </thead>
       <tbody>
@@ -55,7 +55,12 @@
             <td><span class="ek-pill"><%= order.payment_status %></span></td>
             <td><%= number_to_currency(order.total_amount, unit: "₺", format: "%u %n") %></td>
             <td><%= l(order.created_at, format: :short) %></td>
-            <td><%= link_to "Detay", admin_order_path(order), class: "ek-pill" %></td>
+            <td>
+              <div class="admin-row-actions">
+                <%= link_to "👁️ Detay", admin_order_path(order), class: "ek-pill" %>
+                <%= button_to "🗑️ Sil", admin_order_path(order), method: :delete, class: "ek-pill", form: { data: { turbo_confirm: "Bu siparişi silmek istiyor musunuz?" } } %>
+              </div>
+            </td>
           </tr>
         <% end %>
       </tbody>

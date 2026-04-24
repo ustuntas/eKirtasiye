@@ -1,6 +1,6 @@
 <section class="ek-panel p-6 md:p-8">
   <span class="ek-eyebrow">Katalog</span>
-  <h1 class="ek-section-title">Ürün Yönetimi</h1>
+  <h1 class="ek-section-title">Ürünleri Yönet</h1>
   <p class="ek-section-copy">Stok, fiyat ve kategori bilgilerini tek panelden izleyin.</p>
 </section>
 
@@ -30,7 +30,7 @@
 <section class="ek-panel p-6 mt-8">
   <div class="admin-panel-head">
     <h2>Ürün Listesi</h2>
-    <%= link_to "Yeni Ürün", new_admin_product_path, class: "ek-primary-button" %>
+    <%= link_to "➕ Yeni Ürün", new_admin_product_path, class: "ek-primary-button" %>
   </div>
 
   <div class="admin-table-wrap mt-4">
@@ -43,7 +43,7 @@
           <th>Fiyat</th>
           <th>Stok</th>
           <th>Durum</th>
-          <th></th>
+          <th>İşlemler</th>
         </tr>
       </thead>
       <tbody>
@@ -55,7 +55,13 @@
             <td><%= number_to_currency(product.price, unit: "₺", format: "%u %n") %></td>
             <td><%= product.stock_quantity %></td>
             <td><span class="ek-pill"><%= product.active? ? "active" : "inactive" %></span></td>
-            <td><%= link_to "Düzenle", edit_admin_product_path(product), class: "ek-pill" %></td>
+            <td>
+              <div class="admin-row-actions">
+                <%= link_to "👁️ Detay", admin_product_path(product), class: "ek-pill" %>
+                <%= link_to "✏️ Düzenle", edit_admin_product_path(product), class: "ek-pill" %>
+                <%= button_to "🗑️ Sil", admin_product_path(product), method: :delete, class: "ek-pill", form: { data: { turbo_confirm: "Bu ürünü silmek istiyor musunuz?" } } %>
+              </div>
+            </td>
           </tr>
         <% end %>
       </tbody>
