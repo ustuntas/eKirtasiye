@@ -2,37 +2,37 @@ require "test_helper"
 
 class Admin::ProductImagesControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    get admin_product_images_index_url
+    get admin_product_images_url
     assert_response :success
   end
 
   test "should get new" do
-    get admin_product_images_new_url
+    get new_admin_product_image_url
     assert_response :success
   end
 
   test "should get create" do
-    get admin_product_images_create_url
+    post admin_product_images_url, params: { product_image: { } }
     assert_response :success
   end
 
   test "should get show" do
-    get admin_product_images_show_url
+    get admin_product_image_url(FactoryBot.create(:product_image))
     assert_response :success
   end
 
   test "should get edit" do
-    get admin_product_images_edit_url
+    get edit_admin_product_image_url(FactoryBot.create(:product_image))
     assert_response :success
   end
 
   test "should get update" do
-    get admin_product_images_update_url
+    patch admin_product_image_url(FactoryBot.create(:product_image)), params: { product_image: { } }
     assert_response :success
   end
 
   test "should get destroy" do
-    get admin_product_images_destroy_url
+    delete admin_product_image_url(FactoryBot.create(:product_image))
     assert_response :success
   end
 end

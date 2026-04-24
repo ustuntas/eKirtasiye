@@ -28,15 +28,16 @@ class CartsController < ApplicationController
     redirect_to cart_path, notice: "Ürün sepete eklendi"
   end
 
-  def remove_item
-    cart_item = @cart.cart_items.find(params[:id])
-    cart_item.destroy
-    
-    redirect_to cart_path, notice: "Ürün sepetten kaldırıldı"
-  end
-
   def update_item
-    cart_item = @cart.cart_items.find(params[:id])
+    cart_item = CartItem.find_by(id: params[:id])
+    
+    unless cart_item
+      redirect_to cart_path, alert: "Ürün bulunamadı"
+      return
+    end
+    
+    @cart = cart_item.cart
+    
     quantity = params[:quantity]&.to_i
     
     if quantity.present? && quantity > 0
@@ -45,6 +46,28 @@ class CartsController < ApplicationController
     else
       redirect_to cart_path, alert: "Geçersiz miktar"
     end
+  end
+
+  def remove_item
+    cart_item = CartItem.find_by(id: params[:id])
+    
+    unless cart_item
+      redirect_to cart_path, alert: "Ürün bulunamadı"
+      return
+    end
+    
+    if cart_item.cart != @cart
+      if @cart.user.present?
+        cart_item.cart.cart_items.find_by(product: cart_item.product)&.destroy
+      else
+        merge_guest_cart(cart_item.cart)
+      end
+      cart_item = @cart.cart_items.find_by(product: cart_item.product)
+    end
+    
+    cart_item.destroy
+    
+    redirect_to cart_path, notice: "Ürün sepetten kaldırıldı"
   end
 
   def apply_coupon
@@ -86,11 +109,21 @@ class CartsController < ApplicationController
     if Current.user
       @cart = Cart.find_or_create_by(user: Current.user)
     else
-      cart_id = session[:cart_id]
-      @cart = Cart.find_by(id: cart_id) if cart_id
-      @cart ||= Cart.create(session_id: session.id)
-      session[:cart_id] = @cart.id
+      guest_token = session[:guest_cart_token] ||= SecureRandom.uuid
+      @cart = Cart.find_or_initialize_by(session_id: guest_token)
+      if @cart.new_record?
+        @cart.session_id = guest_token
+        @cart.save!
+      end
+      session[:guest_cart_token] = guest_token
     end
+  end
+
+  def merge_guest_cart(source_cart)
+    source_cart.cart_items.each do |item|
+      @cart.add_product(item.product, item.quantity, false)
+    end
+    source_cart.cart_items.destroy_all
   end
 
   def cart_params

@@ -23,8 +23,8 @@ Rails.application.routes.draw do
   resource :cart, only: [:show, :update, :destroy] do
     member do
       post :add_item
-      delete :remove_item
-      patch :update_item
+      delete "cart_items/:id/remove_item", action: :remove_item, as: :remove_item
+      patch "cart_items/:id/update_item", action: :update_item, as: :update_item
       post :apply_coupon
       post :apply_points
     end

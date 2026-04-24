@@ -2,12 +2,7 @@ require "test_helper"
 
 class CheckoutControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    get checkout_index_url
-    assert_response :success
-  end
-
-  test "should get create" do
-    get checkout_create_url
+    get checkout_url
     assert_response :success
   end
 
@@ -17,7 +12,7 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get save_address" do
-    get checkout_save_address_url
+    post checkout_save_address_url, params: { checkout: { } }
     assert_response :success
   end
 
@@ -27,7 +22,7 @@ class CheckoutControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get process_payment" do
-    get checkout_process_payment_url
+    post checkout_process_payment_url, params: { checkout: { } }
     assert_response :success
   end
 

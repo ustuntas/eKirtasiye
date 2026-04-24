@@ -1,33 +1,37 @@
 require "test_helper"
 
 class Admin::SchoolsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @school = schools(:one)
+  end
+
   test "should get index" do
-    get admin_schools_index_url
+    get admin_schools_url
     assert_response :success
   end
 
   test "should get show" do
-    get admin_schools_show_url
+    get admin_school_url(@school)
     assert_response :success
   end
 
   test "should get edit" do
-    get admin_schools_edit_url
+    get edit_admin_school_url(@school)
     assert_response :success
   end
 
   test "should get update" do
-    get admin_schools_update_url
+    patch admin_school_url(@school), params: { school: { name: "Updated School" } }
     assert_response :success
   end
 
   test "should get approve" do
-    get admin_schools_approve_url
+    post approve_admin_school_url(@school)
     assert_response :success
   end
 
   test "should get reject" do
-    get admin_schools_reject_url
+    post reject_admin_school_url(@school)
     assert_response :success
   end
 end

@@ -2,12 +2,12 @@ require "test_helper"
 
 class Admin::SettingsControllerTest < ActionDispatch::IntegrationTest
   test "should get show" do
-    get admin_settings_show_url
+    get admin_settings_url
     assert_response :success
   end
 
   test "should get update" do
-    get admin_settings_update_url
+    patch admin_settings_url, params: { setting: { } }
     assert_response :success
   end
 end

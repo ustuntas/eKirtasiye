@@ -1,38 +1,42 @@
 require "test_helper"
 
 class Account::AddressesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @address = addresses(:one)
+  end
+
   test "should get index" do
-    get account_addresses_index_url
+    get account_addresses_url
     assert_response :success
   end
 
   test "should get show" do
-    get account_addresses_show_url
+    get account_address_url(@address)
     assert_response :success
   end
 
   test "should get new" do
-    get account_addresses_new_url
+    get new_account_address_url
     assert_response :success
   end
 
   test "should get create" do
-    get account_addresses_create_url
+    post account_addresses_url, params: { address: { city: "Istanbul" } }
     assert_response :success
   end
 
   test "should get edit" do
-    get account_addresses_edit_url
+    get edit_account_address_url(@address)
     assert_response :success
   end
 
   test "should get update" do
-    get account_addresses_update_url
+    patch account_address_url(@address), params: { address: { city: "Ankara" } }
     assert_response :success
   end
 
   test "should get destroy" do
-    get account_addresses_destroy_url
+    delete account_address_url(@address)
     assert_response :success
   end
 end

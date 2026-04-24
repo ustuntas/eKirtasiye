@@ -2,27 +2,27 @@ require "test_helper"
 
 class Admin::SchoolAccountsControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    get admin_school_accounts_index_url
+    get admin_school_accounts_url
     assert_response :success
   end
 
   test "should get show" do
-    get admin_school_accounts_show_url
+    get admin_school_account_url(FactoryBot.create(:school_account))
     assert_response :success
   end
 
   test "should get update" do
-    get admin_school_accounts_update_url
+    patch admin_school_account_url(FactoryBot.create(:school_account)), params: { school_account: { } }
     assert_response :success
   end
 
   test "should get approve" do
-    get admin_school_accounts_approve_url
+    patch approve_admin_school_account_url(FactoryBot.create(:school_account)), params: { school_account: { } }
     assert_response :success
   end
 
   test "should get reject" do
-    get admin_school_accounts_reject_url
+    patch reject_admin_school_account_url(FactoryBot.create(:school_account)), params: { school_account: { } }
     assert_response :success
   end
 end

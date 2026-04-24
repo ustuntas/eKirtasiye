@@ -2,37 +2,37 @@ require "test_helper"
 
 class Admin::OrdersControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    get admin_orders_index_url
+    get admin_orders_url
     assert_response :success
   end
 
   test "should get show" do
-    get admin_orders_show_url
+    get admin_order_url(FactoryBot.create(:order))
     assert_response :success
   end
 
   test "should get update" do
-    get admin_orders_update_url
+    patch admin_order_url(FactoryBot.create(:order)), params: { order: { } }
     assert_response :success
   end
 
   test "should get approve" do
-    get admin_orders_approve_url
+    patch approve_admin_order_url(FactoryBot.create(:order))
     assert_response :success
   end
 
   test "should get ship" do
-    get admin_orders_ship_url
+    patch ship_admin_order_url(FactoryBot.create(:order))
     assert_response :success
   end
 
   test "should get deliver" do
-    get admin_orders_deliver_url
+    patch deliver_admin_order_url(FactoryBot.create(:order))
     assert_response :success
   end
 
   test "should get cancel" do
-    get admin_orders_cancel_url
+    patch cancel_admin_order_url(FactoryBot.create(:order))
     assert_response :success
   end
 end

@@ -17,23 +17,13 @@ class ProductsController < ApplicationController
 
     current_cart.add_product(product, quantity)
 
-    redirect_to cart_path, notice: "#{product.name} sepete eklendi"
+    respond_to do |format|
+      format.html { redirect_back fallback_location: product_path(product), notice: "#{product.name} sepete eklendi" }
+      format.turbo_stream
+    end
   end
   
   def add_to_favorites
     redirect_back(fallback_location: root_path)
-  end
-
-  private
-
-  def current_cart
-    if Current.user
-      Cart.find_or_create_by(user: Current.user)
-    else
-      cart = Cart.find_by(id: session[:cart_id]) if session[:cart_id]
-      cart ||= Cart.create(session_id: session.id)
-      session[:cart_id] = cart.id
-      cart
-    end
   end
 end

@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :addresses, dependent: :destroy
   has_many :reviews, dependent: :restrict_with_error
   
+  has_many :school_points, dependent: :destroy
   has_one :school_account, dependent: :destroy
   
   normalizes :email_address, with: ->(e) { e.strip.downcase }
