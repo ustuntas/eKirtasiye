@@ -15,8 +15,8 @@ Ruby on Rails 8.1 ile geliştirilmiş okul kırtasiyesi online satış platformu
 ### Adımlar
 
 ```bash
-# 1. Repository'yi klonlayın
-cd /home/Projeler/eKirtasiye
+# 1. Proje dizinine geçin
+cd /home/anahtar/Projeler/eKirtasiye
 
 # 2. Bağımlılıkları kurun
 bundle install
@@ -31,7 +31,7 @@ bin/rails db:seed
 bin/rails server -p 4000 -b 0.0.0.0
 ```
 
-Tarayıcınızda `http://localhost:4000` adresine gidin.
+Tarayıcınızda http://localhost:4000 adresine gidin.
 
 ## Demo Hesapları
 
@@ -40,6 +40,43 @@ Tarayıcınızda `http://localhost:4000` adresine gidin.
 | Yönetici | admin@ekirtasiye.com | password123 |
 | Okul Yöneticisi | okul@ekirtasiye.com | password123 |
 | Müşteri | musteri@ekirtasiye.com | password123 |
+
+## Son Güncellemeler (Admin + School CRUD)
+
+Aşağıdaki geliştirmeler son turda tamamlandı:
+
+- Admin modüllerinde CRUD ekranları modernize edildi:
+  - Siparişler
+  - Ürünler
+  - Okullar
+  - Kullanıcılar
+  - Okul Hesapları
+- Admin siparişlerde destroy akışı açıldı:
+  - route: `admin/orders` için `destroy`
+  - controller: `Admin::OrdersController#destroy`
+- Placeholder ekranlar (Find me in ...) ilgili yönetim modüllerinden kaldırıldı.
+- Emoji ikonlar kaldırıldı, helper tabanlı SVG ikon sistemine geçildi:
+  - `ApplicationHelper#icon`
+  - `ApplicationHelper#icon_text`
+- Aksiyon butonları ve form submit alanları ikonlarla uyumlu hale getirildi.
+- Bazı ekranlarda görülen “ikon yerine HTML metni görünmesi” sorunu giderildi:
+  - `button_to` kullanımları block formata alındı
+  - `form.submit icon_text(...)` kullanımları `form.button` ile düzeltildi
+- School panelinde sınıf listeleri için tam CRUD + member aksiyonları tamamlandı:
+  - index/show/new/create/edit/update/destroy
+  - publish/unpublish
+  - versions
+
+## Test Durumu
+
+Son güncellemeler sonrası ilgili controller testleri başarılı:
+
+- Admin controller testleri
+- School class list controller testleri
+
+Örnek son koşu çıktısı:
+
+- `26 runs, 84 assertions, 0 failures, 0 errors, 0 skips`
 
 ## Veritabanı Yapısı
 
@@ -122,8 +159,17 @@ Tablolar (22 adet):
 ## Geliştirme
 
 ```bash
-# Testleri çalıştırma
+# Tüm testleri çalıştırma
 bin/rails test
+
+# İlgili admin + school testlerini çalıştırma
+bin/rails test \
+  test/controllers/admin/orders_controller_test.rb \
+  test/controllers/admin/products_controller_test.rb \
+  test/controllers/admin/schools_controller_test.rb \
+  test/controllers/admin/users_controller_test.rb \
+  test/controllers/admin/school_accounts_controller_test.rb \
+  test/controllers/school/class_lists_controller_test.rb
 
 # Konsolu açma
 bin/rails console
