@@ -56,15 +56,7 @@ class CartsController < ApplicationController
       return
     end
     
-    if cart_item.cart != @cart
-      if @cart.user.present?
-        cart_item.cart.cart_items.find_by(product: cart_item.product)&.destroy
-      else
-        merge_guest_cart(cart_item.cart)
-      end
-      cart_item = @cart.cart_items.find_by(product: cart_item.product)
-    end
-    
+    @cart = cart_item.cart
     cart_item.destroy
     
     redirect_to cart_path, notice: "Ürün sepetten kaldırıldı"

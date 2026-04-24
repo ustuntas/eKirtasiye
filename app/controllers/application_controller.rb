@@ -22,7 +22,9 @@ class ApplicationController < ActionController::Base
   helper_method :current_cart
 
   def cart_item_count
-    current_cart.cart_items.distinct.count(:product_id)
+    count = current_cart.cart_items.distinct.count(:product_id)
+    Rails.logger.debug "DEBUG cart_item_count: #{count}"
+    count
   end
   helper_method :cart_item_count
 end
