@@ -1,4 +1,71 @@
-<div>
-  <h1 class="font-bold text-4xl">Admin::Orders#show</h1>
-  <p>Find me in app/views/admin/orders/show.html.erb</p>
-</div>
+<section class="ek-panel p-6 md:p-8">
+  <span class="ek-eyebrow">Sipariş Detayı</span>
+  <h1 class="ek-section-title">Sipariş #<%= @order.id %></h1>
+  <p class="ek-section-copy"><%= @order.user&.email_address || "Misafir" %> • <%= l(@order.created_at, format: :short) %></p>
+
+  <div class="admin-dash-actions mt-6">
+    <%= button_to "Onayla", approve_admin_order_path(@order), method: :post, class: "ek-secondary-button" %>
+    <%= button_to "Kargoya Ver", ship_admin_order_path(@order), method: :post, class: "ek-secondary-button" %>
+    <%= button_to "Teslim Edildi", deliver_admin_order_path(@order), method: :post, class: "ek-secondary-button" %>
+    <%= button_to "İptal Et", cancel_admin_order_path(@order), method: :post, class: "ek-secondary-button" %>
+    <%= link_to "Sipariş Listesi", admin_orders_path, class: "ek-card-link" %>
+  </div>
+</section>
+
+<section class="admin-stats-grid mt-8">
+  <article class="admin-stat-card"><p class="admin-stat-label">Sipariş Durumu</p><p class="admin-stat-value"><%= @order.order_status %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Ödeme Durumu</p><p class="admin-stat-value"><%= @order.payment_status %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Toplam</p><p class="admin-stat-value"><%= number_to_currency(@order.total_amount, unit: "₺", format: "%u %n") %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Ürün Adedi</p><p class="admin-stat-value"><%= @order.total_items %></p></article>
+</section>
+
+<section class="ek-panel p-6 mt-8">
+  <h2 class="ek-section-title text-3xl">Durum Güncelle</h2>
+  <%= form_with model: [:admin, @order], class: "grid md:grid-cols-2 gap-4 mt-4" do |form| %>
+    <div>
+      <%= form.label :order_status, "Sipariş Durumu", class: "font-extrabold" %>
+      <%= form.select :order_status, Order.order_statuses.keys.map { |k| [k, k] }, {}, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+    <div>
+      <%= form.label :payment_status, "Ödeme Durumu", class: "font-extrabold" %>
+      <%= form.select :payment_status, Order.payment_statuses.keys.map { |k| [k, k] }, {}, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+    <div>
+      <%= form.label :shipment_cost, "Kargo Tutarı", class: "font-extrabold" %>
+      <%= form.number_field :shipment_cost, step: 0.01, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+    <div>
+      <%= form.label :discount_amount, "İndirim", class: "font-extrabold" %>
+      <%= form.number_field :discount_amount, step: 0.01, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+    <div class="md:col-span-2">
+      <%= form.submit "Siparişi Güncelle", class: "ek-primary-button" %>
+    </div>
+  <% end %>
+</section>
+
+<section class="ek-panel p-6 mt-8">
+  <h2 class="ek-section-title text-3xl">Sipariş Kalemleri</h2>
+  <div class="admin-table-wrap mt-4">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Ürün</th>
+          <th>Adet</th>
+          <th>Birim Fiyat</th>
+          <th>Tutar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @order.order_items.each do |item| %>
+          <tr>
+            <td><%= item.product&.name || "-" %></td>
+            <td><%= item.quantity %></td>
+            <td><%= number_to_currency(item.unit_price, unit: "₺", format: "%u %n") %></td>
+            <td><%= number_to_currency(item.total_price, unit: "₺", format: "%u %n") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

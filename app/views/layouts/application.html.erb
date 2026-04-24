@@ -40,7 +40,13 @@
             <% end %>
           <% end %>
           <% if Current.user %>
-            <%= link_to "Hesabım", account_root_path, class: "ek-nav-link" %>
+            <% if Current.user.admin? %>
+              <%= link_to "Admin Paneli", admin_root_path, class: "ek-nav-link" %>
+            <% elsif Current.user.school_admin? %>
+              <%= link_to "Okul Paneli", school_root_path, class: "ek-nav-link" %>
+            <% else %>
+              <%= link_to "Hesabım", account_root_path, class: "ek-nav-link" %>
+            <% end %>
             <%= button_to "Çıkış", session_path, method: :delete, class: "ek-ghost-button" %>
           <% else %>
             <%= link_to "Giriş", new_session_path, class: "ek-primary-button" %>

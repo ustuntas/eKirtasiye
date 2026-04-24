@@ -1,4 +1,20 @@
-<div>
-  <h1 class="font-bold text-4xl">Admin::SchoolAccounts#show</h1>
-  <p>Find me in app/views/admin/school_accounts/show.html.erb</p>
-</div>
+<section class="ek-panel p-6 md:p-8">
+  <span class="ek-eyebrow">Okul Hesabı Detayı</span>
+  <h1 class="ek-section-title">#<%= @school_account.id %></h1>
+  <p class="ek-section-copy"><%= @school_account.school&.name %> • <%= @school_account.user&.email_address %></p>
+
+  <div class="admin-dash-actions mt-6">
+    <%= link_to "Düzenle", edit_admin_school_account_path(@school_account), class: "ek-primary-button" %>
+    <%= button_to "Onayla", approve_admin_school_account_path(@school_account), method: :post, class: "ek-secondary-button" %>
+    <%= button_to "Reddet", reject_admin_school_account_path(@school_account), method: :post, class: "ek-secondary-button" %>
+    <%= button_to "Sil", admin_school_account_path(@school_account), method: :delete, class: "ek-secondary-button", form: { data: { turbo_confirm: "Bu okul hesabını silmek istiyor musunuz?" } } %>
+    <%= link_to "Okul Hesapları", admin_school_accounts_path, class: "ek-card-link" %>
+  </div>
+</section>
+
+<section class="admin-stats-grid mt-8">
+  <article class="admin-stat-card"><p class="admin-stat-label">Durum</p><p class="admin-stat-value"><%= @school_account.status %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Yetkili</p><p class="admin-stat-value"><%= @school_account.responsible_person %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Telefon</p><p class="admin-stat-value"><%= @school_account.phone %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Tarih</p><p class="admin-stat-value"><%= l(@school_account.created_at, format: :short) %></p></article>
+</section>

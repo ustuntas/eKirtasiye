@@ -43,6 +43,9 @@ class CartsController < ApplicationController
     if quantity.present? && quantity > 0
       cart_item.update(quantity: quantity)
       redirect_to cart_path, notice: "Miktar güncellendi"
+    elsif quantity == 0
+      cart_item.destroy
+      redirect_to cart_path, notice: "Ürün sepetten kaldırıldı"
     else
       redirect_to cart_path, alert: "Geçersiz miktar"
     end

@@ -1,4 +1,25 @@
-<div>
-  <h1 class="font-bold text-4xl">Admin::Schools#show</h1>
-  <p>Find me in app/views/admin/schools/show.html.erb</p>
-</div>
+<section class="ek-panel p-6 md:p-8">
+  <span class="ek-eyebrow">Okul Detayı</span>
+  <h1 class="ek-section-title"><%= @school.name %></h1>
+  <p class="ek-section-copy">Durum: <span class="ek-pill"><%= @school.status %></span></p>
+
+  <div class="admin-dash-actions mt-6">
+    <%= link_to "Düzenle", edit_admin_school_path(@school), class: "ek-primary-button" %>
+    <%= button_to "Onayla", approve_admin_school_path(@school), method: :post, class: "ek-secondary-button" %>
+    <%= button_to "Reddet", reject_admin_school_path(@school), method: :post, class: "ek-secondary-button" %>
+    <%= button_to "Sil", admin_school_path(@school), method: :delete, class: "ek-secondary-button", form: { data: { turbo_confirm: "Bu okulu silmek istiyor musunuz?" } } %>
+    <%= link_to "Okul Listesi", admin_schools_path, class: "ek-card-link" %>
+  </div>
+</section>
+
+<section class="admin-stats-grid mt-8">
+  <article class="admin-stat-card"><p class="admin-stat-label">E-posta</p><p class="admin-stat-value"><%= @school.email %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Telefon</p><p class="admin-stat-value"><%= @school.phone.presence || "-" %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Vergi No</p><p class="admin-stat-value"><%= @school.tax_number %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Oluşturulma</p><p class="admin-stat-value"><%= l(@school.created_at, format: :short) %></p></article>
+</section>
+
+<section class="ek-panel p-6 mt-8">
+  <h2 class="ek-section-title text-3xl">Adres</h2>
+  <p class="ek-section-copy mt-3"><%= @school.address.presence || "Adres girilmemiş." %></p>
+</section>

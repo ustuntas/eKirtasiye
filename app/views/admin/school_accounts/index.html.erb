@@ -1,4 +1,51 @@
-<div>
-  <h1 class="font-bold text-4xl">Admin::SchoolAccounts#index</h1>
-  <p>Find me in app/views/admin/school_accounts/index.html.erb</p>
-</div>
+<section class="ek-panel p-6 md:p-8">
+  <span class="ek-eyebrow">Okul Hesapları</span>
+  <h1 class="ek-section-title">Okul Hesapları Yönetimi</h1>
+  <p class="ek-section-copy">Okul hesap başvurularını ve atamalarını yönetin.</p>
+</section>
+
+<section class="admin-stats-grid mt-8">
+  <article class="admin-stat-card"><p class="admin-stat-label">Toplam</p><p class="admin-stat-value"><%= @school_accounts.size %></p><p class="admin-stat-meta">Listelenen kayıt</p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Bekleyen</p><p class="admin-stat-value"><%= @pending_count %></p><p class="admin-stat-meta">pending</p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Onaylı</p><p class="admin-stat-value"><%= @approved_count %></p><p class="admin-stat-meta">approved</p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Reddedilen</p><p class="admin-stat-value"><%= @rejected_count %></p><p class="admin-stat-meta">rejected</p></article>
+</section>
+
+<section class="ek-panel p-6 mt-8">
+  <div class="admin-panel-head">
+    <h2>Okul Hesapları Listesi</h2>
+    <div class="admin-dash-actions">
+      <%= link_to "Yeni Okul Hesabı", new_admin_school_account_path, class: "ek-primary-button" %>
+      <%= link_to "Dashboard", admin_root_path, class: "ek-card-link" %>
+    </div>
+  </div>
+
+  <div class="admin-table-wrap mt-4">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Okul</th>
+          <th>Kullanıcı</th>
+          <th>Yetkili</th>
+          <th>Telefon</th>
+          <th>Durum</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @school_accounts.each do |account| %>
+          <tr>
+            <td><%= account.id %></td>
+            <td><%= account.school&.name || "-" %></td>
+            <td><%= account.user&.email_address || "-" %></td>
+            <td><%= account.responsible_person %></td>
+            <td><%= account.phone %></td>
+            <td><span class="ek-pill"><%= account.status %></span></td>
+            <td><%= link_to "Detay", admin_school_account_path(account), class: "ek-pill" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

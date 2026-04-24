@@ -14,7 +14,7 @@ class Order < ApplicationRecord
   validates :payment_status, presence: true
   
   enum :order_status, { pending: 0, confirmed: 1, processing: 2, shipped: 3, delivered: 4, cancelled: 5, refunded: 6 }
-  enum :payment_status, { unpaid: 0, paid: 1, failed: 2, refunded: 3 }
+  enum :payment_status, { unpaid: 0, paid: 1, failed: 2, refunded: 3 }, prefix: true
   
   def total_items
     order_items.sum(:quantity)

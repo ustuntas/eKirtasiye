@@ -111,7 +111,7 @@ Rails.application.routes.draw do
         post :reject
       end
     end
-    resources :school_accounts, only: [:index, :show, :update] do
+    resources :school_accounts do
       member do
         post :approve
         post :reject

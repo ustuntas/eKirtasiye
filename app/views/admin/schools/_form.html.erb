@@ -1,0 +1,49 @@
+<%= form_with model: [:admin, @school], class: "grid gap-5" do |form| %>
+  <% if @school.errors.any? %>
+    <div class="ek-flash ek-flash-alert">
+      <strong><%= @school.errors.count %> hata:</strong>
+      <ul class="mt-2 list-disc pl-5">
+        <% @school.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid md:grid-cols-2 gap-4">
+    <div>
+      <%= form.label :name, "Okul Adı", class: "font-extrabold" %>
+      <%= form.text_field :name, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+    <div>
+      <%= form.label :email, "E-posta", class: "font-extrabold" %>
+      <%= form.email_field :email, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-4">
+    <div>
+      <%= form.label :phone, "Telefon", class: "font-extrabold" %>
+      <%= form.text_field :phone, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+    <div>
+      <%= form.label :tax_number, "Vergi Numarası", class: "font-extrabold" %>
+      <%= form.text_field :tax_number, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :address, "Adres", class: "font-extrabold" %>
+    <%= form.text_area :address, rows: 4, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+  </div>
+
+  <div>
+    <%= form.label :status, "Durum", class: "font-extrabold" %>
+    <%= form.select :status, School.statuses.keys.map { |k| [k, k] }, {}, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+  </div>
+
+  <div class="flex gap-3">
+    <%= form.submit "Kaydet", class: "ek-primary-button" %>
+    <%= link_to "Vazgeç", admin_schools_path, class: "ek-secondary-button" %>
+  </div>
+<% end %>

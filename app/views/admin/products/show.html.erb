@@ -1,4 +1,23 @@
-<div>
-  <h1 class="font-bold text-4xl">Admin::Products#show</h1>
-  <p>Find me in app/views/admin/products/show.html.erb</p>
-</div>
+<section class="ek-panel p-6 md:p-8">
+  <span class="ek-eyebrow">Ürün Detayı</span>
+  <h1 class="ek-section-title"><%= @product.name %></h1>
+  <p class="ek-section-copy">SKU: <%= @product.sku %></p>
+
+  <div class="admin-dash-actions mt-6">
+    <%= link_to "Düzenle", edit_admin_product_path(@product), class: "ek-primary-button" %>
+    <%= button_to "Sil", admin_product_path(@product), method: :delete, class: "ek-secondary-button", form: { data: { turbo_confirm: "Bu ürünü silmek istiyor musunuz?" } } %>
+    <%= link_to "Ürün Listesi", admin_products_path, class: "ek-card-link" %>
+  </div>
+</section>
+
+<section class="admin-stats-grid mt-8">
+  <article class="admin-stat-card"><p class="admin-stat-label">Kategori</p><p class="admin-stat-value"><%= @product.category&.name || "-" %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Fiyat</p><p class="admin-stat-value"><%= number_to_currency(@product.price, unit: "₺", format: "%u %n") %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Stok</p><p class="admin-stat-value"><%= @product.stock_quantity %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Durum</p><p class="admin-stat-value"><%= @product.active? ? "active" : "inactive" %></p></article>
+</section>
+
+<section class="ek-panel p-6 mt-8">
+  <h2 class="ek-section-title text-3xl">Açıklama</h2>
+  <p class="ek-section-copy mt-3"><%= @product.description.presence || "Açıklama girilmemiş." %></p>
+</section>

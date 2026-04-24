@@ -1,0 +1,33 @@
+<%= form_with model: [:admin, @user], class: "grid gap-5" do |form| %>
+  <% if @user.errors.any? %>
+    <div class="ek-flash ek-flash-alert">
+      <strong><%= @user.errors.count %> hata:</strong>
+      <ul class="mt-2 list-disc pl-5">
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :email_address, "E-posta", class: "font-extrabold" %>
+    <%= form.email_field :email_address, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+  </div>
+
+  <div>
+    <%= form.label :password, "Şifre", class: "font-extrabold" %>
+    <%= form.password_field :password, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    <p class="ek-muted text-sm mt-1">Düzenlemede boş bırakırsanız mevcut şifre korunur.</p>
+  </div>
+
+  <div>
+    <%= form.label :role, "Rol", class: "font-extrabold" %>
+    <%= form.select :role, User::ROLES.map { |role| [role, role] }, {}, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+  </div>
+
+  <div class="flex gap-3">
+    <%= form.submit "Kaydet", class: "ek-primary-button" %>
+    <%= link_to "Vazgeç", admin_users_path, class: "ek-secondary-button" %>
+  </div>
+<% end %>

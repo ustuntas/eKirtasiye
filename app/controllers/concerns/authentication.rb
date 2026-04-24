@@ -2,6 +2,7 @@ module Authentication
   extend ActiveSupport::Concern
 
   included do
+    before_action :resume_session
     before_action :require_authentication
     helper_method :authenticated?
   end
@@ -23,6 +24,7 @@ module Authentication
 
     def resume_session
       Current.session ||= find_session_by_cookie
+      Current.user = Current.session&.user
     end
 
     def find_session_by_cookie
@@ -41,7 +43,13 @@ module Authentication
     def start_new_session_for(user)
       user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
         Current.session = session
-        cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
+        Current.user = user
+        cookies.signed[:session_id] = {
+          value: session.id,
+          expires: 20.years.from_now,
+          httponly: true,
+          same_site: :lax
+        }
       end
     end
 

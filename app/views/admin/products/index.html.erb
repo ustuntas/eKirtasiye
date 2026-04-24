@@ -1,4 +1,64 @@
-<div>
-  <h1 class="font-bold text-4xl">Admin::Products#index</h1>
-  <p>Find me in app/views/admin/products/index.html.erb</p>
-</div>
+<section class="ek-panel p-6 md:p-8">
+  <span class="ek-eyebrow">Katalog</span>
+  <h1 class="ek-section-title">Ürün Yönetimi</h1>
+  <p class="ek-section-copy">Stok, fiyat ve kategori bilgilerini tek panelden izleyin.</p>
+</section>
+
+<section class="admin-stats-grid mt-8">
+  <article class="admin-stat-card">
+    <p class="admin-stat-label">Toplam Ürün</p>
+    <p class="admin-stat-value"><%= @products.size %></p>
+    <p class="admin-stat-meta">Listelenen kayıt</p>
+  </article>
+  <article class="admin-stat-card">
+    <p class="admin-stat-label">Aktif Ürün</p>
+    <p class="admin-stat-value"><%= @active_products_count %></p>
+    <p class="admin-stat-meta">Satışa açık ürünler</p>
+  </article>
+  <article class="admin-stat-card">
+    <p class="admin-stat-label">Düşük Stok</p>
+    <p class="admin-stat-value"><%= @low_stock_count %></p>
+    <p class="admin-stat-meta">10 ve altı stok</p>
+  </article>
+  <article class="admin-stat-card">
+    <p class="admin-stat-label">Toplam Stok Adedi</p>
+    <p class="admin-stat-value"><%= @total_stock_units %></p>
+    <p class="admin-stat-meta">Tüm ürünler</p>
+  </article>
+</section>
+
+<section class="ek-panel p-6 mt-8">
+  <div class="admin-panel-head">
+    <h2>Ürün Listesi</h2>
+    <%= link_to "Yeni Ürün", new_admin_product_path, class: "ek-primary-button" %>
+  </div>
+
+  <div class="admin-table-wrap mt-4">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Ürün</th>
+          <th>Kategori</th>
+          <th>Fiyat</th>
+          <th>Stok</th>
+          <th>Durum</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @products.each do |product| %>
+          <tr>
+            <td><%= product.sku %></td>
+            <td><%= product.name %></td>
+            <td><%= product.category&.name || "-" %></td>
+            <td><%= number_to_currency(product.price, unit: "₺", format: "%u %n") %></td>
+            <td><%= product.stock_quantity %></td>
+            <td><span class="ek-pill"><%= product.active? ? "active" : "inactive" %></span></td>
+            <td><%= link_to "Düzenle", edit_admin_product_path(product), class: "ek-pill" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

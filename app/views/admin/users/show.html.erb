@@ -1,4 +1,21 @@
-<div>
-  <h1 class="font-bold text-4xl">Admin::Users#show</h1>
-  <p>Find me in app/views/admin/users/show.html.erb</p>
-</div>
+<section class="ek-panel p-6 md:p-8">
+  <span class="ek-eyebrow">Kullanıcı Detayı</span>
+  <h1 class="ek-section-title"><%= @user.email_address %></h1>
+  <p class="ek-section-copy">Rol: <span class="ek-pill"><%= @user.role %></span></p>
+
+  <div class="admin-dash-actions mt-6">
+    <%= link_to "Düzenle", edit_admin_user_path(@user), class: "ek-primary-button" %>
+    <%= button_to "Müşteri Yap", change_role_admin_user_path(@user, role: "customer"), method: :post, class: "ek-secondary-button" %>
+    <%= button_to "Okul Admini Yap", change_role_admin_user_path(@user, role: "school_admin"), method: :post, class: "ek-secondary-button" %>
+    <%= button_to "Durum Toggle", toggle_active_admin_user_path(@user), method: :post, class: "ek-secondary-button" %>
+    <%= button_to "Sil", admin_user_path(@user), method: :delete, class: "ek-secondary-button", form: { data: { turbo_confirm: "Bu kullanıcıyı silmek istiyor musunuz?" } } %>
+    <%= link_to "Kullanıcı Listesi", admin_users_path, class: "ek-card-link" %>
+  </div>
+</section>
+
+<section class="admin-stats-grid mt-8">
+  <article class="admin-stat-card"><p class="admin-stat-label">ID</p><p class="admin-stat-value"><%= @user.id %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Rol</p><p class="admin-stat-value"><%= @user.role %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Oluşturulma</p><p class="admin-stat-value"><%= l(@user.created_at, format: :short) %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Güncelleme</p><p class="admin-stat-value"><%= l(@user.updated_at, format: :short) %></p></article>
+</section>

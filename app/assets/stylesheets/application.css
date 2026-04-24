@@ -440,6 +440,154 @@ button.ek-primary-button {
   box-shadow: var(--ek-soft-shadow) !important;
 }
 
+.admin-dash-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .7rem;
+}
+
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.admin-stat-card {
+  border: 1px solid var(--ek-line);
+  border-radius: 20px;
+  padding: 1rem 1.1rem;
+  background: rgb(255 253 248 / 90%);
+}
+
+.admin-stat-label {
+  margin: 0;
+  font-size: .8rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ek-muted);
+  font-weight: 800;
+}
+
+.admin-stat-value {
+  margin: .35rem 0;
+  font-family: var(--ek-display);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.admin-stat-meta {
+  margin: 0;
+  color: var(--ek-muted);
+  font-size: .9rem;
+}
+
+.admin-panels-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 1rem;
+}
+
+.admin-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .8rem;
+}
+
+.admin-panel-head h2 {
+  margin: 0;
+  font-family: var(--ek-display);
+  font-size: 1.8rem;
+}
+
+.admin-table-wrap {
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: .65rem .4rem;
+  border-bottom: 1px solid var(--ek-line);
+  text-align: left;
+  font-size: .92rem;
+}
+
+.admin-table th {
+  color: var(--ek-muted);
+  font-size: .78rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.admin-split-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.admin-split-list h3 {
+  margin: 0 0 .65rem;
+  font-size: 1rem;
+}
+
+.admin-split-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: .5rem;
+}
+
+.admin-split-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  padding: .6rem;
+  border: 1px solid var(--ek-line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.admin-low-stock-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: .9rem;
+}
+
+.admin-low-stock-card {
+  border: 1px solid var(--ek-line);
+  border-radius: 16px;
+  padding: .9rem;
+  background: #fff;
+}
+
+.admin-low-stock-name {
+  margin: 0;
+  font-weight: 800;
+}
+
+.admin-low-stock-meta,
+.admin-low-stock-count {
+  margin: .4rem 0;
+  color: var(--ek-muted);
+}
+
+@media (max-width: 980px) {
+  .admin-panels-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-split-list {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 760px) {
   .ek-nav {
     align-items: flex-start;

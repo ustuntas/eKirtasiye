@@ -1,0 +1,58 @@
+<%= form_with model: [:admin, @product], class: "grid gap-5" do |form| %>
+  <% if @product.errors.any? %>
+    <div class="ek-flash ek-flash-alert">
+      <strong><%= @product.errors.count %> hata:</strong>
+      <ul class="mt-2 list-disc pl-5">
+        <% @product.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid md:grid-cols-2 gap-4">
+    <div>
+      <%= form.label :name, "Ürün Adı", class: "font-extrabold" %>
+      <%= form.text_field :name, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+    <div>
+      <%= form.label :sku, "SKU", class: "font-extrabold" %>
+      <%= form.text_field :sku, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-4">
+    <div>
+      <%= form.label :price, "Fiyat", class: "font-extrabold" %>
+      <%= form.number_field :price, step: 0.01, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+    <div>
+      <%= form.label :stock_quantity, "Stok", class: "font-extrabold" %>
+      <%= form.number_field :stock_quantity, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+    <div>
+      <%= form.label :point_value, "Puan", class: "font-extrabold" %>
+      <%= form.number_field :point_value, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :category_id, "Kategori", class: "font-extrabold" %>
+    <%= form.collection_select :category_id, Category.order(:name), :id, :name, { prompt: "Kategori seçin" }, { class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" } %>
+  </div>
+
+  <div>
+    <%= form.label :description, "Açıklama", class: "font-extrabold" %>
+    <%= form.text_area :description, rows: 5, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <%= form.check_box :active %>
+    <%= form.label :active, "Aktif" %>
+  </div>
+
+  <div class="flex gap-3">
+    <%= form.submit "Kaydet", class: "ek-primary-button" %>
+    <%= link_to "Vazgeç", admin_products_path, class: "ek-secondary-button" %>
+  </div>
+<% end %>
