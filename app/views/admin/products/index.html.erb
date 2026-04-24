@@ -30,7 +30,7 @@
 <section class="ek-panel p-6 mt-8">
   <div class="admin-panel-head">
     <h2>Ürün Listesi</h2>
-    <%= link_to "➕ Yeni Ürün", new_admin_product_path, class: "ek-primary-button" %>
+    <%= link_to icon_text("plus", "Yeni Ürün"), new_admin_product_path, class: "ek-primary-button" %>
   </div>
 
   <div class="admin-table-wrap mt-4">
@@ -57,9 +57,11 @@
             <td><span class="ek-pill"><%= product.active? ? "active" : "inactive" %></span></td>
             <td>
               <div class="admin-row-actions">
-                <%= link_to "👁️ Detay", admin_product_path(product), class: "ek-pill" %>
-                <%= link_to "✏️ Düzenle", edit_admin_product_path(product), class: "ek-pill" %>
-                <%= button_to "🗑️ Sil", admin_product_path(product), method: :delete, class: "ek-pill", form: { data: { turbo_confirm: "Bu ürünü silmek istiyor musunuz?" } } %>
+                <%= link_to icon_text("eye", "Detay"), admin_product_path(product), class: "ek-pill" %>
+                <%= link_to icon_text("pencil", "Düzenle"), edit_admin_product_path(product), class: "ek-pill" %>
+                <%= button_to admin_product_path(product), method: :delete, class: "ek-pill", form: { data: { turbo_confirm: "Bu ürünü silmek istiyor musunuz?" } } do %>
+                  <%= icon_text("trash", "Sil") %>
+                <% end %>
               </div>
             </td>
           </tr>

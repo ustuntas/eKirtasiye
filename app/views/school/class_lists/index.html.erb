@@ -1,4 +1,60 @@
-<div>
-  <h1 class="font-bold text-4xl">School::ClassLists#index</h1>
-  <p>Find me in app/views/school/class_lists/index.html.erb</p>
-</div>
+<section class="ek-panel p-6 md:p-8">
+  <span class="ek-eyebrow">Okul Paneli</span>
+  <h1 class="ek-section-title">Sınıf Listelerini Yönet</h1>
+  <p class="ek-section-copy">Okulunuza ait sınıf ihtiyaç listelerini oluşturun, güncelleyin ve yayınlayın.</p>
+</section>
+
+<section class="admin-stats-grid mt-8">
+  <article class="admin-stat-card">
+    <p class="admin-stat-label">Toplam Liste</p>
+    <p class="admin-stat-value"><%= @total_count %></p>
+  </article>
+  <article class="admin-stat-card">
+    <p class="admin-stat-label">Aktif Liste</p>
+    <p class="admin-stat-value"><%= @active_count %></p>
+  </article>
+</section>
+
+<section class="ek-panel p-6 mt-8">
+  <div class="admin-panel-head">
+    <h2>Sınıf Listeleri</h2>
+    <%= link_to icon_text("plus", "Yeni Sınıf Listesi"), new_school_class_list_path, class: "ek-primary-button" %>
+  </div>
+
+  <div class="admin-table-wrap mt-4">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Liste</th>
+          <th>Sınıf</th>
+          <th>Akademik Yıl</th>
+          <th>Dönem</th>
+          <th>Versiyon</th>
+          <th>Durum</th>
+          <th>İşlemler</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @class_lists.each do |list| %>
+          <tr>
+            <td><%= list.name %></td>
+            <td><%= list.classroom&.name || "-" %></td>
+            <td><%= list.academic_year %></td>
+            <td><%= list.semester %></td>
+            <td>v<%= list.version %></td>
+            <td><span class="ek-pill"><%= list.active? ? "active" : "inactive" %></span></td>
+            <td>
+              <div class="admin-row-actions">
+                <%= link_to icon_text("eye", "Detay"), school_class_list_path(list), class: "ek-pill" %>
+                <%= link_to icon_text("pencil", "Düzenle"), edit_school_class_list_path(list), class: "ek-pill" %>
+                <%= button_to school_class_list_path(list), method: :delete, class: "ek-pill", form: { data: { turbo_confirm: "Bu sınıf listesini silmek istiyor musunuz?" } } do %>
+                  <%= icon_text("trash", "Sil") %>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

@@ -31,8 +31,8 @@
   <div class="admin-panel-head">
     <h2>Okul Listesi</h2>
     <div class="admin-dash-actions">
-      <%= link_to "➕ Yeni Okul", new_admin_school_path, class: "ek-primary-button" %>
-      <%= link_to "🏠 Dashboard", admin_root_path, class: "ek-card-link" %>
+      <%= link_to icon_text("plus", "Yeni Okul"), new_admin_school_path, class: "ek-primary-button" %>
+      <%= link_to icon_text("home", "Dashboard"), admin_root_path, class: "ek-card-link" %>
     </div>
   </div>
 
@@ -58,9 +58,11 @@
             <td><span class="ek-pill"><%= school.status %></span></td>
             <td>
               <div class="admin-row-actions">
-                <%= link_to "👁️ Detay", admin_school_path(school), class: "ek-pill" %>
-                <%= link_to "✏️ Düzenle", edit_admin_school_path(school), class: "ek-pill" %>
-                <%= button_to "🗑️ Sil", admin_school_path(school), method: :delete, class: "ek-pill", form: { data: { turbo_confirm: "Bu okulu silmek istiyor musunuz?" } } %>
+                <%= link_to icon_text("eye", "Detay"), admin_school_path(school), class: "ek-pill" %>
+                <%= link_to icon_text("pencil", "Düzenle"), edit_admin_school_path(school), class: "ek-pill" %>
+                <%= button_to admin_school_path(school), method: :delete, class: "ek-pill", form: { data: { turbo_confirm: "Bu okulu silmek istiyor musunuz?" } } do %>
+                  <%= icon_text("trash", "Sil") %>
+                <% end %>
               </div>
             </td>
           </tr>

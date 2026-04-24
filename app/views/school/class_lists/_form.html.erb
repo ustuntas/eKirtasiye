@@ -1,0 +1,51 @@
+<%= form_with model: @class_list, url: (@class_list.persisted? ? school_class_list_path(@class_list) : school_class_lists_path), class: "grid gap-5" do |form| %>
+  <% if @class_list.errors.any? %>
+    <div class="ek-flash ek-flash-alert">
+      <strong><%= @class_list.errors.count %> hata:</strong>
+      <ul class="mt-2 list-disc pl-5">
+        <% @class_list.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid md:grid-cols-2 gap-4">
+    <div>
+      <%= form.label :classroom_id, "Sınıf", class: "font-extrabold" %>
+      <%= form.collection_select :classroom_id, @current_school.classes.order(:grade, :section), :id, :name, { prompt: "Sınıf seçin" }, { class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" } %>
+    </div>
+
+    <div>
+      <%= form.label :name, "Liste Adı", class: "font-extrabold" %>
+      <%= form.text_field :name, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-4">
+    <div>
+      <%= form.label :academic_year, "Akademik Yıl", class: "font-extrabold" %>
+      <%= form.text_field :academic_year, placeholder: "2026-2027", class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+
+    <div>
+      <%= form.label :semester, "Dönem", class: "font-extrabold" %>
+      <%= form.text_field :semester, placeholder: "Güz", class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+
+    <div>
+      <%= form.label :version, "Versiyon", class: "font-extrabold" %>
+      <%= form.number_field :version, min: 1, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <%= form.check_box :active %>
+    <%= form.label :active, "Aktif (yayında)", class: "font-semibold" %>
+  </div>
+
+  <div class="flex gap-3">
+    <%= form.button icon_text("save", "Kaydet"), type: :submit, class: "ek-primary-button" %>
+    <%= link_to icon_text("back", "Vazgeç"), school_class_lists_path, class: "ek-secondary-button" %>
+  </div>
+<% end %>

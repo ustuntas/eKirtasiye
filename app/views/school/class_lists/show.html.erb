@@ -1,4 +1,30 @@
-<div>
-  <h1 class="font-bold text-4xl">School::ClassLists#show</h1>
-  <p>Find me in app/views/school/class_lists/show.html.erb</p>
-</div>
+<section class="ek-panel p-6 md:p-8">
+  <span class="ek-eyebrow">Sınıf Listesi Detayı</span>
+  <h1 class="ek-section-title"><%= @class_list.name %></h1>
+  <p class="ek-section-copy"><%= @class_list.classroom&.name %> • <%= @class_list.academic_year %> • <%= @class_list.semester %></p>
+
+  <div class="admin-dash-actions mt-6">
+    <%= link_to icon_text("pencil", "Düzenle"), edit_school_class_list_path(@class_list), class: "ek-primary-button" %>
+    <% if @class_list.active? %>
+      <%= button_to unpublish_school_class_list_path(@class_list), method: :post, class: "ek-secondary-button" do %>
+        <%= icon_text("x_circle", "Yayından Kaldır") %>
+      <% end %>
+    <% else %>
+      <%= button_to publish_school_class_list_path(@class_list), method: :post, class: "ek-secondary-button" do %>
+        <%= icon_text("check", "Yayınla") %>
+      <% end %>
+    <% end %>
+    <%= link_to icon_text("list", "Versiyonlar"), versions_school_class_list_path(@class_list), class: "ek-secondary-button" %>
+    <%= button_to school_class_list_path(@class_list), method: :delete, class: "ek-secondary-button", form: { data: { turbo_confirm: "Bu sınıf listesini silmek istiyor musunuz?" } } do %>
+      <%= icon_text("trash", "Sil") %>
+    <% end %>
+    <%= link_to icon_text("back", "Listeye Dön"), school_class_lists_path, class: "ek-card-link" %>
+  </div>
+</section>
+
+<section class="admin-stats-grid mt-8">
+  <article class="admin-stat-card"><p class="admin-stat-label">Sınıf</p><p class="admin-stat-value"><%= @class_list.classroom&.name || "-" %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Versiyon</p><p class="admin-stat-value">v<%= @class_list.version %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Toplam Ürün</p><p class="admin-stat-value"><%= @class_list.total_items %></p></article>
+  <article class="admin-stat-card"><p class="admin-stat-label">Toplam Tutar</p><p class="admin-stat-value"><%= number_to_currency(@class_list.total_amount, unit: "₺", format: "%u %n") %></p></article>
+</section>

@@ -4,12 +4,20 @@
   <p class="ek-section-copy">Rol: <span class="ek-pill"><%= @user.role %></span></p>
 
   <div class="admin-dash-actions mt-6">
-    <%= link_to "✏️ Düzenle", edit_admin_user_path(@user), class: "ek-primary-button" %>
-    <%= button_to "🧑 Müşteri Yap", change_role_admin_user_path(@user, role: "customer"), method: :post, class: "ek-secondary-button" %>
-    <%= button_to "🏫 Okul Admini Yap", change_role_admin_user_path(@user, role: "school_admin"), method: :post, class: "ek-secondary-button" %>
-    <%= button_to "🔁 Durum Toggle", toggle_active_admin_user_path(@user), method: :post, class: "ek-secondary-button" %>
-    <%= button_to "🗑️ Sil", admin_user_path(@user), method: :delete, class: "ek-secondary-button", form: { data: { turbo_confirm: "Bu kullanıcıyı silmek istiyor musunuz?" } } %>
-    <%= link_to "📋 Kullanıcı Listesi", admin_users_path, class: "ek-card-link" %>
+    <%= link_to icon_text("pencil", "Düzenle"), edit_admin_user_path(@user), class: "ek-primary-button" %>
+    <%= button_to change_role_admin_user_path(@user, role: "customer"), method: :post, class: "ek-secondary-button" do %>
+      <%= icon_text("user", "Müşteri Yap") %>
+    <% end %>
+    <%= button_to change_role_admin_user_path(@user, role: "school_admin"), method: :post, class: "ek-secondary-button" do %>
+      <%= icon_text("school", "Okul Admini Yap") %>
+    <% end %>
+    <%= button_to toggle_active_admin_user_path(@user), method: :post, class: "ek-secondary-button" do %>
+      <%= icon_text("toggle", "Durum Toggle") %>
+    <% end %>
+    <%= button_to admin_user_path(@user), method: :delete, class: "ek-secondary-button", form: { data: { turbo_confirm: "Bu kullanıcıyı silmek istiyor musunuz?" } } do %>
+      <%= icon_text("trash", "Sil") %>
+    <% end %>
+    <%= link_to icon_text("list", "Kullanıcı Listesi"), admin_users_path, class: "ek-card-link" %>
   </div>
 </section>
 

@@ -524,6 +524,32 @@ button.ek-primary-button {
   text-transform: uppercase;
 }
 
+.admin-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+}
+
+.admin-row-actions form {
+  margin: 0;
+}
+
+.ek-icon-text {
+  display: inline-flex;
+  align-items: center;
+  gap: .42rem;
+}
+
+.ek-icon {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 1rem;
+}
+
+.ek-icon-label {
+  line-height: 1;
+}
+
 .admin-split-list {
   display: grid;
   grid-template-columns: 1fr 1fr;

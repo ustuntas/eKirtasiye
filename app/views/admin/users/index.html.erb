@@ -31,8 +31,8 @@
   <div class="admin-panel-head">
     <h2>Kullanıcı Listesi</h2>
     <div class="admin-dash-actions">
-      <%= link_to "➕ Yeni Kullanıcı", new_admin_user_path, class: "ek-primary-button" %>
-      <%= link_to "🏠 Dashboard", admin_root_path, class: "ek-card-link" %>
+      <%= link_to icon_text("plus", "Yeni Kullanıcı"), new_admin_user_path, class: "ek-primary-button" %>
+      <%= link_to icon_text("home", "Dashboard"), admin_root_path, class: "ek-card-link" %>
     </div>
   </div>
 
@@ -56,9 +56,11 @@
             <td><%= l(user.created_at, format: :short) %></td>
             <td>
               <div class="admin-row-actions">
-                <%= link_to "👁️ Detay", admin_user_path(user), class: "ek-pill" %>
-                <%= link_to "✏️ Düzenle", edit_admin_user_path(user), class: "ek-pill" %>
-                <%= button_to "🗑️ Sil", admin_user_path(user), method: :delete, class: "ek-pill", form: { data: { turbo_confirm: "Bu kullanıcıyı silmek istiyor musunuz?" } } %>
+                <%= link_to icon_text("eye", "Detay"), admin_user_path(user), class: "ek-pill" %>
+                <%= link_to icon_text("pencil", "Düzenle"), edit_admin_user_path(user), class: "ek-pill" %>
+                <%= button_to admin_user_path(user), method: :delete, class: "ek-pill", form: { data: { turbo_confirm: "Bu kullanıcıyı silmek istiyor musunuz?" } } do %>
+                  <%= icon_text("trash", "Sil") %>
+                <% end %>
               </div>
             </td>
           </tr>

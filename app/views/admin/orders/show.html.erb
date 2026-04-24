@@ -4,12 +4,22 @@
   <p class="ek-section-copy"><%= @order.user&.email_address || "Misafir" %> • <%= l(@order.created_at, format: :short) %></p>
 
   <div class="admin-dash-actions mt-6">
-    <%= button_to "✅ Onayla", approve_admin_order_path(@order), method: :post, class: "ek-secondary-button" %>
-    <%= button_to "📦 Kargoya Ver", ship_admin_order_path(@order), method: :post, class: "ek-secondary-button" %>
-    <%= button_to "📬 Teslim Edildi", deliver_admin_order_path(@order), method: :post, class: "ek-secondary-button" %>
-    <%= button_to "⛔ İptal Et", cancel_admin_order_path(@order), method: :post, class: "ek-secondary-button" %>
-    <%= button_to "🗑️ Sil", admin_order_path(@order), method: :delete, class: "ek-secondary-button", form: { data: { turbo_confirm: "Bu siparişi kalıcı olarak silmek istiyor musunuz?" } } %>
-    <%= link_to "📋 Sipariş Listesi", admin_orders_path, class: "ek-card-link" %>
+    <%= button_to approve_admin_order_path(@order), method: :post, class: "ek-secondary-button" do %>
+      <%= icon_text("check", "Onayla") %>
+    <% end %>
+    <%= button_to ship_admin_order_path(@order), method: :post, class: "ek-secondary-button" do %>
+      <%= icon_text("truck", "Kargoya Ver") %>
+    <% end %>
+    <%= button_to deliver_admin_order_path(@order), method: :post, class: "ek-secondary-button" do %>
+      <%= icon_text("delivered", "Teslim Edildi") %>
+    <% end %>
+    <%= button_to cancel_admin_order_path(@order), method: :post, class: "ek-secondary-button" do %>
+      <%= icon_text("x_circle", "İptal Et") %>
+    <% end %>
+    <%= button_to admin_order_path(@order), method: :delete, class: "ek-secondary-button", form: { data: { turbo_confirm: "Bu siparişi kalıcı olarak silmek istiyor musunuz?" } } do %>
+      <%= icon_text("trash", "Sil") %>
+    <% end %>
+    <%= link_to icon_text("list", "Sipariş Listesi"), admin_orders_path, class: "ek-card-link" %>
   </div>
 </section>
 
@@ -40,7 +50,7 @@
       <%= form.number_field :discount_amount, step: 0.01, class: "mt-2 w-full rounded-2xl border border-[var(--ek-line)] bg-white px-4 py-3" %>
     </div>
     <div class="md:col-span-2">
-      <%= form.submit "💾 Siparişi Güncelle", class: "ek-primary-button" %>
+      <%= form.button icon_text("save", "Siparişi Güncelle"), type: :submit, class: "ek-primary-button" %>
     </div>
   <% end %>
 </section>

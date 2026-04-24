@@ -30,7 +30,7 @@
 <section class="ek-panel p-6 mt-8">
   <div class="admin-panel-head">
     <h2>Sipariş Listesi</h2>
-    <%= link_to "🏠 Dashboard", admin_root_path, class: "ek-card-link" %>
+    <%= link_to icon_text("home", "Dashboard"), admin_root_path, class: "ek-card-link" %>
   </div>
 
   <div class="admin-table-wrap mt-4">
@@ -57,8 +57,10 @@
             <td><%= l(order.created_at, format: :short) %></td>
             <td>
               <div class="admin-row-actions">
-                <%= link_to "👁️ Detay", admin_order_path(order), class: "ek-pill" %>
-                <%= button_to "🗑️ Sil", admin_order_path(order), method: :delete, class: "ek-pill", form: { data: { turbo_confirm: "Bu siparişi silmek istiyor musunuz?" } } %>
+                <%= link_to icon_text("eye", "Detay"), admin_order_path(order), class: "ek-pill" %>
+                <%= button_to admin_order_path(order), method: :delete, class: "ek-pill", form: { data: { turbo_confirm: "Bu siparişi silmek istiyor musunuz?" } } do %>
+                  <%= icon_text("trash", "Sil") %>
+                <% end %>
               </div>
             </td>
           </tr>

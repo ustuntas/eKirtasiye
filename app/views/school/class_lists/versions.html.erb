@@ -1,4 +1,36 @@
-<div>
-  <h1 class="font-bold text-4xl">School::ClassLists#versions</h1>
-  <p>Find me in app/views/school/class_lists/versions.html.erb</p>
-</div>
+<section class="ek-panel p-6 md:p-8">
+  <span class="ek-eyebrow">Sürüm Geçmişi</span>
+  <h1 class="ek-section-title">Versiyonlar</h1>
+  <p class="ek-section-copy"><%= @class_list.name %> için yayınlanan versiyonları inceleyin.</p>
+</section>
+
+<section class="ek-panel p-6 mt-8">
+  <div class="admin-table-wrap mt-2">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Versiyon</th>
+          <th>Durum</th>
+          <th>Dönem</th>
+          <th>Tarih</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @versions.each do |version| %>
+          <tr>
+            <td>v<%= version.version %></td>
+            <td><span class="ek-pill"><%= version.active? ? "active" : "inactive" %></span></td>
+            <td><%= version.academic_year %> / <%= version.semester %></td>
+            <td><%= l(version.created_at, format: :short) %></td>
+            <td><%= link_to icon_text("eye", "Detay"), school_class_list_path(version), class: "ek-pill" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="admin-dash-actions mt-4">
+    <%= link_to icon_text("back", "Listeye Dön"), school_class_lists_path, class: "ek-card-link" %>
+  </div>
+</section>

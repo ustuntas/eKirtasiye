@@ -18,7 +18,7 @@ class Admin::OrdersControllerTest < ActionDispatch::IntegrationTest
   test "renders orders management dashboard" do
     get admin_orders_url
     assert_response :success
-    assert_select "h1", text: /Sipariş Yönetimi/i
+    assert_select "h1", text: /Siparişleri Yönet/i
     assert_select "h2", text: /Sipariş Listesi/i
   end
 
@@ -34,5 +34,13 @@ class Admin::OrdersControllerTest < ActionDispatch::IntegrationTest
     @order.reload
     assert_equal "confirmed", @order.order_status
     assert_equal "paid", @order.payment_status
+  end
+
+  test "deletes order" do
+    assert_difference("Order.count", -1) do
+      delete admin_order_url(@order)
+    end
+
+    assert_redirected_to admin_orders_url
   end
 end

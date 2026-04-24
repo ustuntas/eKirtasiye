@@ -38,7 +38,7 @@
   </div>
 
   <div class="flex gap-3">
-    <%= form.submit "Kaydet", class: "ek-primary-button" %>
-    <%= link_to "Vazgeç", admin_school_accounts_path, class: "ek-secondary-button" %>
+    <%= form.button icon_text("save", "Kaydet"), type: :submit, class: "ek-primary-button" %>
+    <%= link_to icon_text("back", "Vazgeç"), admin_school_accounts_path, class: "ek-secondary-button" %>
   </div>
 <% end %>
