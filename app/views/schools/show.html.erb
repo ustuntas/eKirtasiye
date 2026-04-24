@@ -1,28 +1,29 @@
-<div class="container mx-auto px-4 py-8">
-  <nav class="mb-4">
-    <%= link_to "← Okullar", schools_path, class: "text-blue-600 hover:underline" %>
+<section>
+  <nav class="mb-5">
+    <%= link_to "← Okullar", schools_path, class: "ek-card-link" %>
   </nav>
-  
-  <div class="bg-white rounded-lg shadow p-8">
-    <h1 class="text-3xl font-bold text-gray-900 mb-4"><%= @school.name %></h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-      <div>
-        <p class="text-gray-600 mb-2"><strong>Adres:</strong> <%= @school.address %></p>
-        <p class="text-gray-600 mb-2"><strong>Telefon:</strong> <%= @school.phone %></p>
-        <p class="text-gray-600 mb-2"><strong>E-posta:</strong> <%= @school.email %></p>
+
+  <article class="ek-panel p-6 md:p-8">
+    <span class="ek-eyebrow">Okul profili</span>
+    <h1 class="ek-section-title"><%= @school.name %></h1>
+    <p class="ek-section-copy">Okul bilgilerini inceleyin ve sınıf ihtiyaç listelerine geçin.</p>
+
+    <div class="ek-grid mt-8">
+      <div class="ek-card">
+        <span class="ek-card-kicker">İletişim</span>
+        <p class="font-bold mt-3"><%= @school.address %></p>
+        <p class="ek-muted mt-2">Telefon: <%= @school.phone %></p>
+        <p class="ek-muted">E-posta: <%= @school.email %></p>
       </div>
-      <div>
-        <p class="text-gray-600 mb-2"><strong>Vergi No:</strong> <%= @school.tax_number %></p>
-        <p class="text-gray-600 mb-2">
-          <strong>Durum:</strong> 
-          <span class="<%= @school.approved? ? 'text-green-600' : 'text-yellow-600' %>">
-            <%= @school.status %>
-          </span>
-        </p>
+      <div class="ek-card">
+        <span class="ek-card-kicker">Kurum</span>
+        <p class="font-bold mt-3">Vergi No: <%= @school.tax_number %></p>
+        <p class="ek-muted mt-2">Durum: <%= @school.status %></p>
       </div>
     </div>
-    
-    <%= link_to "Siniflari Goruntule", classes_school_path(@school), 
-          class: "bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 inline-block" %>
-  </div>
-</div>
+
+    <div class="ek-actions mt-8">
+      <%= link_to "Sınıfları Görüntüle", classes_school_path(@school), class: "ek-primary-button" %>
+    </div>
+  </article>
+</section>

@@ -1,5 +1,5 @@
 class SchoolsController < ApplicationController
-  skip_before_action :require_authentication, only: [:index, :show]
+  skip_before_action :require_authentication, only: [:index, :show, :classes, :class_list, :add_class_list_to_cart]
   
   def index
     @schools = School.approved
@@ -16,12 +16,12 @@ class SchoolsController < ApplicationController
   
   def class_list
     @school = School.find(params[:id])
-    @class_list = @school.school_class_lists.find(params[:class_list_id]) if params[:class_list_id].present?
+    @class_list = find_class_list if params[:class_list_id].present?
   end
   
   def add_class_list_to_cart
     @school = School.find(params[:id])
-    @class_list = @school.school_class_lists.find(params[:class_list_id]) if params[:class_list_id].present?
+    @class_list = find_class_list if params[:class_list_id].present?
     
     unless @class_list
       redirect_to school_classes_path(@school), alert: "Liste bulunamadı"
@@ -39,7 +39,7 @@ class SchoolsController < ApplicationController
     end
     
     added_count = 0
-    @class_list.items.each do |list_item|
+    @class_list.school_class_list_items.each do |list_item|
       product = list_item.product
       if product && product.active?
         cart.add_product(product, list_item.quantity, true, @class_list.version)
@@ -52,5 +52,12 @@ class SchoolsController < ApplicationController
     else
       redirect_to school_classes_path(@school), alert: "Sepete eklenecek ürün bulunamadı"
     end
+  end
+
+  private
+
+  def find_class_list
+    @school.school_class_lists.find_by(id: params[:class_list_id]) ||
+      @school.school_class_lists.active.find_by(classroom_id: params[:class_list_id])
   end
 end

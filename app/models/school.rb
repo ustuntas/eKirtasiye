@@ -1,6 +1,6 @@
 class School < ApplicationRecord
   has_many :school_accounts, dependent: :restrict_with_error
-  has_many :classes, dependent: :restrict_with_error
+  has_many :classes, class_name: "Classroom", dependent: :restrict_with_error
   has_many :school_class_lists, dependent: :restrict_with_error
   has_many :orders, dependent: :restrict_with_error
   has_many :school_points, dependent: :restrict_with_error

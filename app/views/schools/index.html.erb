@@ -1,17 +1,22 @@
-<div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold text-gray-900 mb-8">Okullar</h1>
-  
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<section>
+  <span class="ek-eyebrow">Okul seçimi</span>
+  <h1 class="ek-section-title">Okullar</h1>
+  <p class="ek-section-copy">Çocuğunuzun okulunu seçin, sınıf listesine ulaşın ve tüm ihtiyaçları tek seferde sepete ekleyin.</p>
+
+  <div class="ek-grid mt-8">
     <% @schools.each do |school| %>
-      <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= school.name %></h3>
-        <p class="text-gray-600 mb-2"><%= school.address %></p>
-        <p class="text-sm text-gray-500 mb-4">Tel: <%= school.phone %></p>
-        <div class="flex gap-2">
-          <%= link_to "Detay", school_path(school), class: "text-blue-600 hover:underline" %>
-          <%= link_to "Siniflar", classes_school_path(school), class: "text-blue-600 hover:underline" %>
+      <article class="ek-card">
+        <span class="ek-card-kicker">Onaylı okul</span>
+        <h2 class="ek-card-title"><%= school.name %></h2>
+        <p class="ek-muted"><%= school.address %></p>
+        <div class="ek-pill-row mt-4">
+          <span class="ek-pill">Tel: <%= school.phone %></span>
         </div>
-      </div>
+        <div class="ek-actions mt-5">
+          <%= link_to "Detay", school_path(school), class: "ek-secondary-button" %>
+          <%= link_to "Sınıflar", classes_school_path(school), class: "ek-primary-button" %>
+        </div>
+      </article>
     <% end %>
   </div>
-</div>
+</section>

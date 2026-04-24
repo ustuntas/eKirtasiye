@@ -1,16 +1,18 @@
-<div>
-  <h1 class="font-bold text-4xl">Categories#index</h1>
-  <div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold text-gray-900 mb-8">Kategoriler</h1>
-  
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <% @categories.each do |category| %>
-      <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= category.name %></h3>
-        <p class="text-gray-600 mb-4"><%= category.products.active.count %> ürün</p>
-        <%= link_to "Ürünleri Göster", category_products_path(category), class: "text-blue-600 hover:underline" %>
-      </div>
+<section>
+  <span class="ek-eyebrow">Katalog</span>
+  <h1 class="ek-section-title">Kategoriler</h1>
+  <p class="ek-section-copy">Okul alışverişini bölümlere ayıran sade ve anlaşılır kategori yapısı.</p>
+
+  <div class="ek-grid mt-8">
+    <% @categories.each_with_index do |category, index| %>
+      <article class="ek-card">
+        <span class="ek-card-kicker">Kategori <%= index + 1 %></span>
+        <h2 class="ek-card-title"><%= category.name %></h2>
+        <p class="ek-muted"><%= category.products.active.count %> ürün listeleniyor.</p>
+        <div class="mt-5">
+          <%= link_to "Ürünleri Göster", category_products_path(category), class: "ek-card-link" %>
+        </div>
+      </article>
     <% end %>
   </div>
-</div>
-</div>
+</section>

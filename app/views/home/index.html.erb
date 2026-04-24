@@ -1,82 +1,64 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>eKirtasiye - Okul Kirtasiyesi Online Satis</title>
-  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-</head>
-<body class="bg-gray-50">
-  <header class="bg-white shadow-sm">
-    <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-blue-600">eKirtasiye</h1>
-      <div class="space-x-4">
-        <%= link_to "Ana Sayfa", root_path, class: "text-gray-700 hover:text-blue-600" %>
-        <%= link_to "Kategoriler", categories_path, class: "text-gray-700 hover:text-blue-600" %>
-        <%= link_to "Urunler", products_path, class: "text-gray-700 hover:text-blue-600" %>
-        <%= link_to "Okullar", schools_path, class: "text-gray-700 hover:text-blue-600" %>
-        <%= link_to "Sepet", cart_path, class: "text-gray-700 hover:text-blue-600" %>
-        <% if Current.user %>
-          <%= link_to "Hesabim", account_root_path, class: "text-gray-700 hover:text-blue-600" %>
-          <%= button_to "Cikis", session_path, method: :delete, class: "text-red-600 hover:text-red-800" %>
-        <% else %>
-          <%= link_to "Giris", new_session_path, class: "text-blue-600 hover:text-blue-800" %>
-          <%= link_to "Kayit", "#", class: "text-blue-600 hover:text-blue-800" %>
-        <% end %>
-      </div>
-    </nav>
-  </header>
+<section class="ek-hero">
+  <span class="ek-eyebrow">Yeni dönem alışverişi</span>
+  <h1 class="ek-title">Okul listeleri artık tek tık kadar yakın.</h1>
+  <p class="ek-lead">eKirtasiye; okul, sınıf ve ihtiyaç listesini bir araya getirerek veliler için hızlı, düzenli ve güvenilir bir alışveriş deneyimi sunar.</p>
+  <div class="ek-actions">
+    <%= link_to "Okulunu Seç", schools_path, class: "ek-primary-button" %>
+    <%= link_to "Ürünleri Keşfet", products_path, class: "ek-secondary-button" %>
+  </div>
+</section>
 
-  <main class="container mx-auto px-4 py-8">
-    <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold text-gray-900 mb-4">Hosgeldiniz!</h2>
-      <p class="text-xl text-gray-600 mb-8">Okul kirtasiyesi urunlerini online kesfedin</p>
-      
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        <div class="bg-white p-6 rounded-lg shadow">
-          <h3 class="text-lg font-semibold mb-2">Kategoriler</h3>
-          <p class="text-gray-600"><%= Category.count %> kategori</p>
-          <%= link_to "Kategorileri Goruntule", categories_path, class: "text-blue-600 hover:underline" %>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow">
-          <h3 class="text-lg font-semibold mb-2">Urunler</h3>
-          <p class="text-gray-600"><%= Product.active.count %> urun</p>
-          <%= link_to "Urunleri Goruntule", products_path, class: "text-blue-600 hover:underline" %>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow">
-          <h3 class="text-lg font-semibold mb-2">Okullar</h3>
-          <p class="text-gray-600"><%= School.approved.count %> okul</p>
-          <%= link_to "Okullari Goruntule", schools_path, class: "text-blue-600 hover:underline" %>
-        </div>
-      </div>
-
-      <div class="bg-blue-50 p-8 rounded-lg">
-        <h3 class="text-2xl font-bold text-blue-900 mb-4">Demo Bilgileri</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
-          <div class="bg-white p-4 rounded">
-            <h4 class="font-semibold">Admin</h4>
-            <p class="text-sm text-gray-600">Email: admin@ekirtasiye.com</p>
-            <p class="text-sm text-gray-600">Sifre: password123</p>
-          </div>
-          <div class="bg-white p-4 rounded">
-            <h4 class="font-semibold">Okul Yoneticisi</h4>
-            <p class="text-sm text-gray-600">Email: okul@ekirtasiye.com</p>
-            <p class="text-sm text-gray-600">Sifre: password123</p>
-          </div>
-          <div class="bg-white p-4 rounded">
-            <h4 class="font-semibold">Musteri</h4>
-            <p class="text-sm text-gray-600">Email: musteri@ekirtasiye.com</p>
-            <p class="text-sm text-gray-600">Sifre: password123</p>
-          </div>
-        </div>
-      </div>
+<section>
+  <div class="ek-section-head">
+    <div>
+      <span class="ek-eyebrow">Platform özeti</span>
+      <h2 class="ek-section-title">Her şey düzenli, hızlı ve takip edilebilir.</h2>
+      <p class="ek-section-copy">Kategori, ürün ve okul akışları aynı arayüz diliyle toplandı; veliler listeyi bulur, sepetini oluşturur, siparişini tamamlar.</p>
     </div>
-  </main>
+  </div>
 
-  <footer class="bg-gray-800 text-white py-6 mt-12">
-    <div class="container mx-auto px-4 text-center">
-      <p>&copy; 2026 eKirtasiye. Tum haklari saklidir.</p>
+  <div class="ek-grid">
+    <article class="ek-card">
+      <span class="ek-card-kicker">Katalog</span>
+      <h3 class="ek-card-title"><%= Category.count %> kategori</h3>
+      <p class="ek-muted">Kırtasiye ürünleri düzenli kategori yapısıyla listelenir.</p>
+      <div class="mt-5"><%= link_to "Kategorileri Gör", categories_path, class: "ek-card-link" %></div>
+    </article>
+
+    <article class="ek-card">
+      <span class="ek-card-kicker">Ürünler</span>
+      <h3 class="ek-card-title"><%= Product.active.count %> aktif ürün</h3>
+      <p class="ek-muted">Stok, puan ve fiyat bilgileriyle hızlı seçim yapılır.</p>
+      <div class="mt-5"><%= link_to "Ürünleri Gör", products_path, class: "ek-card-link" %></div>
+    </article>
+
+    <article class="ek-card">
+      <span class="ek-card-kicker">Okullar</span>
+      <h3 class="ek-card-title"><%= School.approved.count %> okul</h3>
+      <p class="ek-muted">Okul ve sınıf listeleri sepet deneyimine bağlanır.</p>
+      <div class="mt-5"><%= link_to "Okulları Gör", schools_path, class: "ek-card-link" %></div>
+    </article>
+  </div>
+</section>
+
+<section class="ek-panel mt-8 p-6 md:p-8">
+  <span class="ek-eyebrow">Demo erişim</span>
+  <h2 class="ek-section-title text-3xl md:text-4xl">Hazır hesaplarla deneyin.</h2>
+  <div class="ek-grid mt-6">
+    <div class="ek-card">
+      <span class="ek-card-kicker">Admin</span>
+      <p class="font-bold mt-2">admin@ekirtasiye.com</p>
+      <p class="ek-muted">password123</p>
     </div>
-  </footer>
-</body>
-</html>
+    <div class="ek-card">
+      <span class="ek-card-kicker">Okul yöneticisi</span>
+      <p class="font-bold mt-2">okul@ekirtasiye.com</p>
+      <p class="ek-muted">password123</p>
+    </div>
+    <div class="ek-card">
+      <span class="ek-card-kicker">Müşteri</span>
+      <p class="font-bold mt-2">musteri@ekirtasiye.com</p>
+      <p class="ek-muted">password123</p>
+    </div>
+  </div>
+</section>

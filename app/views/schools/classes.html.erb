@@ -1,19 +1,25 @@
-<div class="container mx-auto px-4 py-8">
-  <nav class="mb-4">
-    <%= link_to "← #{@school.name}", school_path(@school), class: "text-blue-600 hover:underline" %>
+<section>
+  <nav class="mb-5">
+    <%= link_to "← #{@school.name}", school_path(@school), class: "ek-card-link" %>
   </nav>
-  
-  <h1 class="text-3xl font-bold text-gray-900 mb-2"><%= @school.name %> - Siniflar</h1>
-  <p class="text-gray-600 mb-8">Sinif seçerek ihtiyac listenizi görüntüleyin</p>
-  
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+  <span class="ek-eyebrow">Sınıf seçimi</span>
+  <h1 class="ek-section-title"><%= @school.name %> sınıfları</h1>
+  <p class="ek-section-copy">Sınıfınızı seçerek dönem ihtiyaç listesine ulaşın.</p>
+
+  <div class="ek-grid mt-8">
     <% @classes.each do |classroom| %>
-      <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
-        <h3 class="text-xl font-semibold text-gray-800 mb-2"><%= classroom.name %></h3>
-        <p class="text-gray-600 mb-2">Sinif: <%= classroom.grade %>/<%= classroom.section %></p>
-        <%= link_to "Ihtiyac Listesi", class_list_school_path(@school, class_list_id: classroom.id), 
-              class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 inline-block" %>
-      </div>
+      <article class="ek-card">
+        <span class="ek-card-kicker">Sınıf</span>
+        <h2 class="ek-card-title"><%= classroom.name %></h2>
+        <div class="ek-pill-row mt-4">
+          <span class="ek-pill"><%= classroom.grade %>. sınıf</span>
+          <span class="ek-pill">Şube <%= classroom.section %></span>
+        </div>
+        <div class="mt-5">
+          <%= link_to "İhtiyaç Listesi", class_list_school_path(@school, class_list_id: classroom.id), class: "ek-primary-button" %>
+        </div>
+      </article>
     <% end %>
   </div>
-</div>
+</section>

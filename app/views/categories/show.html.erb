@@ -1,22 +1,25 @@
-<div class="container mx-auto px-4 py-8">
-  <nav class="mb-4">
-    <%= link_to "← Kategoriler", categories_path, class: "text-blue-600 hover:underline" %>
+<section>
+  <nav class="mb-5">
+    <%= link_to "← Kategoriler", categories_path, class: "ek-card-link" %>
   </nav>
-  
-  <h1 class="text-3xl font-bold text-gray-900 mb-2"><%= @category.name %></h1>
-  <p class="text-gray-600 mb-8"><%= @category.description %></p>
-  
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+
+  <span class="ek-eyebrow">Kategori</span>
+  <h1 class="ek-section-title"><%= @category.name %></h1>
+  <p class="ek-section-copy"><%= @category.description.presence || "Bu kategoriye ait okul ürünlerini inceleyin." %></p>
+
+  <div class="ek-grid mt-8">
     <% @products.each do |product| %>
-      <div class="bg-white rounded-lg shadow p-4">
-        <div class="bg-gray-200 w-full h-48 rounded flex items-center justify-center">
-          <span class="text-gray-500">Resim yok</span>
+      <article class="ek-product-card">
+        <div class="ek-product-art">Ürün görseli</div>
+        <div class="ek-product-body">
+          <h2 class="ek-product-title"><%= product.name %></h2>
+          <div class="ek-price"><%= number_to_currency(product.price) %></div>
+          <div class="ek-pill-row">
+            <span class="ek-pill"><%= product.stock_quantity %> stok</span>
+          </div>
+          <%= link_to "Detay", product_path(product), class: "ek-card-link" %>
         </div>
-        <h3 class="text-lg font-semibold text-gray-800 mt-4 mb-2"><%= product.name %></h3>
-        <p class="text-gray-600 mb-2"><%= number_to_currency(product.price) %></p>
-        <p class="text-sm text-gray-500 mb-4">Stok: <%= product.stock_quantity %></p>
-        <%= link_to "Detay", product_path(product), class: "text-blue-600 hover:underline" %>
-      </div>
+      </article>
     <% end %>
   </div>
-</div>
+</section>

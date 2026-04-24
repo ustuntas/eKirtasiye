@@ -1,30 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
   <head>
-    <title><%= content_for(:title) || "E Kirtasiye" %></title>
+    <title><%= content_for(:title) || "eKirtasiye" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="E Kirtasiye">
+    <meta name="application-name" content="eKirtasiye">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "application", "data-turbo-track": "reload" %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="ek-body">
+    <header class="ek-header">
+      <nav class="ek-shell ek-nav">
+        <%= link_to root_path, class: "ek-brand" do %>
+          <span class="ek-brand-mark">eK</span>
+          <span class="ek-brand-text">
+            <span class="ek-brand-title">eKirtasiye</span>
+            <span class="ek-brand-kicker">Okul alışverişi</span>
+          </span>
+        <% end %>
+
+        <div class="ek-menu">
+          <%= link_to "Kategoriler", categories_path, class: "ek-nav-link" %>
+          <%= link_to "Ürünler", products_path, class: "ek-nav-link" %>
+          <%= link_to "Okullar", schools_path, class: "ek-nav-link" %>
+          <%= link_to "Sepet", cart_path, class: "ek-nav-link ek-cart-link" %>
+          <% if Current.user %>
+            <%= link_to "Hesabım", account_root_path, class: "ek-nav-link" %>
+            <%= button_to "Çıkış", session_path, method: :delete, class: "ek-ghost-button" %>
+          <% else %>
+            <%= link_to "Giriş", new_session_path, class: "ek-primary-button" %>
+          <% end %>
+        </div>
+      </nav>
+    </header>
+
+    <% if notice.present? %>
+      <div class="ek-shell ek-flash ek-flash-notice"><%= notice %></div>
+    <% end %>
+    <% if alert.present? %>
+      <div class="ek-shell ek-flash ek-flash-alert"><%= alert %></div>
+    <% end %>
+
+    <main class="ek-shell ek-page">
       <%= yield %>
     </main>
+
+    <footer class="ek-footer">
+      <div class="ek-shell flex flex-col md:flex-row gap-3 justify-between items-start md:items-center">
+        <p>© <%= Time.current.year %> eKirtasiye. Okul ihtiyaçlarını zarif ve hızlı hale getirir.</p>
+        <div class="ek-pill-row">
+          <span class="ek-pill">Rails 8.1</span>
+          <span class="ek-pill">SQLite</span>
+          <span class="ek-pill">Tailwind</span>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
